@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <title>Terawww — Indie Developer | Psychological Horror & Meta Systems</title>
+  <meta name="title" content="Terawww — Indie Developer" />
+  <meta name="description" content="Terawww is an indie game developer focused on psychological horror, meta-systems, and diegetic UI. Creator of WriteNor." />
+  <meta name="author" content="Terawww" />
+  <meta name="creator" content="Terawww" />
+  <meta name="publisher" content="Terawww" />
+  <meta name="theme-color" content="#ff003c" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+  <link rel="canonical" href="https://terawww.github.io/" />
+  <link rel="icon" type="image/png" href="/favicon.png?v=7" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://terawww.github.io/" />
+  <meta property="og:site_name" content="Terawww" />
+  <meta property="og:title" content="Terawww — Indie Developer" />
+  <meta property="og:description" content="Psychological horror, meta-systems, diegetic UI. Creator of WriteNor." />
+  <meta property="og:image" content="https://writenor.github.io/Nori_Cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Terawww — Indie Developer" />
+  <meta name="twitter:description" content="Creator of WriteNor. Psychological horror & diegetic systems." />
+  <meta name="twitter:image" content="https://writenor.github.io/Nori_Cover.png" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary:#ff003c;
+      --secondary:#00f3ff;
+      --bg:#000;
+      --text-main:#f0f0f0;
+      --muted:#9a9a9a;
+      --panel: rgba(0,0,0,.78);
+      --border:#222;
+    }
+
+    *{ margin:0; padding:0; box-sizing:border-box; cursor:none; }
+    body.lock-scroll{ overflow:hidden; }
+    body{ background:var(--bg); color:var(--text-main); font-family:'Rajdhani',sans-serif; overflow-x:hidden; width:100%; }
+
+    @media (pointer: coarse){
+      *{ cursor:auto !important; }
+      .cursor, .cursor-dot{ display:none !important; }
+    }
+
+    canvas{ position:fixed; top:0; left:0; z-index:-3; }
+    .bg-overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.86); z-index:-2; pointer-events:none; }
+    .scanlines{
+      position:fixed; inset:0;
+      background:linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+      background-size:100% 4px;
+      pointer-events:none; z-index:100;
+      opacity:.14; mix-blend-mode:overlay;
+    }
+
+    .cursor{
+      width:20px; height:20px;
+      border:2px solid var(--primary);
+      border-radius:50%;
+      position:fixed; pointer-events:none; z-index:300;
+      transform:translate(-50%,-50%);
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+      mix-blend-mode:difference;
+    }
+    .cursor-dot{
+      width:4px; height:4px; background:var(--primary);
+      border-radius:50%;
+      position:fixed; pointer-events:none; z-index:300;
+      transform:translate(-50%,-50%);
+    }
+    .cursor.hover-active{ transform:translate(-50%,-50%) scale(1.8); background:rgba(255,0,60,0.18); border-color:#fff; }
+
+    /* DOTА-STYLE: LOGO FLY-IN PRELOADER */
+    #preloader{
+      position:fixed; inset:0;
+      background:#000;
+      z-index:400;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:opacity .55s ease;
+    }
+    .prelogo{
+      position:relative;
+      width:140px;
+      height:140px;
+      display:grid;
+      place-items:center;
+      transform: translateZ(0);
+      animation: flyIn 820ms cubic-bezier(.08,.82,.15,1) forwards;
+      will-change: transform, opacity, filter;
+    }
+    .prelogo-ring{
+      position:absolute;
+      inset:0;
+      border-radius:50%;
+      border:2px solid rgba(255,255,255,.35);
+      box-shadow: 0 0 30px rgba(255,0,60,.25), inset 0 0 26px rgba(0,243,255,.10);
+      animation: ringPulse 720ms ease-in-out infinite;
+    }
+    .prelogo-mark{
+      font-family:'Syncopate',sans-serif;
+      font-weight:700;
+      font-size:3.2rem;
+      letter-spacing:2px;
+      color:#fff;
+      text-shadow:
+        0 0 18px rgba(255,0,60,.35),
+        0 0 30px rgba(0,243,255,.18);
+      mix-blend-mode:screen;
+      user-select:none;
+    }
+    .prelogo-glitch{
+      position:absolute;
+      width:90px;
+      height:24px;
+      background:rgba(255,0,60,.10);
+      border:1px solid rgba(255,0,60,.35);
+      filter: blur(.2px);
+      opacity:0;
+      animation: glitchSlice 820ms ease-in-out forwards;
+    }
+    @keyframes flyIn{
+      0%   { opacity:0; transform:scale(.55) translateY(14px); filter: blur(8px); }
+      35%  { opacity:1; transform:scale(.95) translateY(0);     filter: blur(1px); }
+      70%  { opacity:1; transform:scale(6.0);                  filter: blur(0px); }
+      100% { opacity:0; transform:scale(9.0);                  filter: blur(1px); }
+    }
+    @keyframes ringPulse{
+      0%,100%{ transform:scale(1); opacity:.65; }
+      50%{ transform:scale(1.06); opacity:1; }
+    }
+    @keyframes glitchSlice{
+      0%   { opacity:0; transform:translateY(0) translateX(0) scaleX(1); }
+      25%  { opacity:.8; transform:translateY(-10px) translateX(10px) scaleX(1.2); }
+      45%  { opacity:.2; transform:translateY(6px) translateX(-14px) scaleX(.85); }
+      70%  { opacity:.7; transform:translateY(-4px) translateX(18px) scaleX(1.35); }
+      100% { opacity:0; transform:translateY(0) translateX(0) scaleX(1); }
+    }
+
+    nav{
+      position:fixed; top:0; width:100%;
+      padding:15px 40px;
+      display:flex; justify-content:space-between; align-items:center;
+      z-index:200;
+      background:rgba(0,0,0,.9);
+      border-bottom:1px solid #333;
+      backdrop-filter: blur(6px);
+    }
+    .logo{
+      font-family:'Syncopate',sans-serif;
+      font-weight:700; font-size:1.25rem;
+      letter-spacing:2px; color:#fff;
+      display:flex; align-items:center; gap:10px;
+    }
+    .logo .dot{ width:8px; height:8px; background:var(--primary); border-radius:50%; box-shadow:0 0 12px rgba(255,0,60,.6); }
+
+    .nav-links{ display:flex; gap:26px; align-items:center; flex-wrap:wrap; justify-content:center; }
+    .nav-links a{
+      color:#aaa; text-decoration:none;
+      text-transform:uppercase;
+      font-weight:700; letter-spacing:1px;
+      transition:.3s;
+      font-size:.85rem;
+      font-family:'JetBrains Mono',monospace;
+    }
+    .nav-links a:hover{ color:#fff; text-shadow:0 0 5px #fff; }
+    .cta-mini{
+      color:var(--primary) !important;
+      border:1px solid var(--primary);
+      padding:6px 10px;
+      animation:textGlitch 2s infinite;
+    }
+
+    header{
+      min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
+      text-align:center;
+      position:relative;
+      padding-top:70px;
+    }
+    .hero-content{
+      position:relative; z-index:10;
+      opacity:0; transform:translateY(18px);
+      animation:fadeUp 1.3s 0.25s forwards;
+      width:100%; max-width:1200px; padding:0 20px;
+      display:flex; flex-direction:column; align-items:center;
+    }
+
+    h1{
+      font-family:'Syncopate',sans-serif;
+      font-size:8vw; line-height:1;
+      text-transform:uppercase;
+      color:transparent;
+      -webkit-text-stroke:2px #fff;
+      position:relative;
+      letter-spacing:3px;
+    }
+    h1::after{
+      content:'TERAWWW';
+      position:absolute; top:0; left:0; right:0;
+      color:#fff; opacity:0;
+      animation:glitchText 3s infinite alternate-reverse;
+    }
+
+    .hero-sub{
+      margin-top:22px;
+      font-family:'JetBrains Mono',monospace;
+      font-size:1.05rem;
+      color:var(--muted);
+      letter-spacing:1.2px;
+      max-width:900px;
+      line-height:1.7;
+    }
+
+    .hero-pill{
+      margin-top:18px;
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+    }
+    .pill{
+      font-family:'JetBrains Mono',monospace;
+      font-size:.8rem;
+      color:var(--secondary);
+      border:1px solid rgba(0,243,255,.55);
+      padding:8px 12px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      background:rgba(0,243,255,.03);
+    }
+    .pill.primary{
+      color:#fff;
+      border-color:rgba(255,0,60,.65);
+      background:rgba(255,0,60,.05);
+    }
+
+    .hero-btns{
+      display:flex; justify-content:center; gap:16px;
+      flex-wrap:wrap;
+      width:100%;
+      margin-top:38px;
+    }
+    .cta-btn{
+      padding:14px 42px;
+      border:2px solid #fff;
+      color:#fff;
+      font-family:'JetBrains Mono',monospace;
+      font-weight:bold;
+      text-decoration:none;
+      text-transform:uppercase;
+      transition:.3s;
+      background:transparent;
+      letter-spacing:1px;
+      display:inline-block;
+    }
+    .cta-btn:hover{ background:#fff; color:#000; }
+    .cta-btn.alt{
+      border-color:var(--primary);
+      color:var(--primary);
+    }
+    .cta-btn.alt:hover{ background:var(--primary); color:#000; border-color:var(--primary); }
+
+    .marquee{
+      width:100%; overflow:hidden; white-space:nowrap;
+      background:var(--primary); color:#000;
+      padding:8px 0;
+      font-family:'JetBrains Mono',monospace;
+      font-weight:bold;
+      border-top:1px solid #fff;
+      border-bottom:1px solid #fff;
+    }
+    .marquee span{ display:inline-block; padding-left:100%; animation:marquee 22s linear infinite; }
+
+    .container{ max-width:1200px; margin:0 auto; padding:90px 20px; }
+    .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+
+    .text-block{
+      background:var(--panel);
+      padding:40px;
+      border:1px solid var(--border);
+      border-left:5px solid var(--primary);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 26px rgba(0,0,0,.55);
+    }
+    .text-block h2{
+      font-size:2.4rem;
+      margin-bottom:22px;
+      text-transform:uppercase;
+      padding-left:10px;
+      letter-spacing:2px;
+      font-family:'Syncopate',sans-serif;
+    }
+    .text-block p{
+      font-size:1.05rem;
+      line-height:1.85;
+      color:#cfcfcf;
+      margin-bottom:16px;
+    }
+    .text-block b{ color:#fff; }
+
+    .sys-log{
+      margin-top:18px;
+      font-family:'JetBrains Mono',monospace;
+      font-size:0.85rem;
+      line-height:1.6;
+      color:#777;
+      background:rgba(255,0,60,0.03);
+      border:1px solid #222;
+      border-left:3px solid var(--primary);
+      padding:15px;
+      letter-spacing:0.5px;
+    }
+    .sys-log b{ color:#bbb; font-weight:700; }
+    .sys-log .log-prefix{ color:var(--primary); font-weight:bold; }
+
+    .skills{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:16px;
+      margin-top:18px;
+    }
+    .card{
+      background:rgba(10,10,10,.92);
+      border:1px solid #222;
+      padding:26px;
+      transition:.25s;
+    }
+    .card:hover{ border-color:var(--primary); transform:translateY(-8px); }
+    .card h3{
+      font-family:'JetBrains Mono',monospace;
+      font-size:1rem;
+      letter-spacing:1px;
+      margin-bottom:10px;
+      text-transform:uppercase;
+      color:#fff;
+    }
+    .card p{ color:#bdbdbd; line-height:1.7; font-size:.98rem; }
+
+    .project-hero{
+      background:rgba(5,5,5,.95);
+      padding:90px 0;
+      border-top:2px solid var(--primary);
+      border-bottom:2px solid var(--secondary);
+      position:relative;
+    }
+    .project-hero::before{
+      content:'';
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(255,0,60,0.08) 0%, transparent 52%),
+        radial-gradient(circle at 80% 50%, rgba(0,243,255,0.08) 0%, transparent 52%);
+      pointer-events:none;
+      animation:breathe 8s ease-in-out infinite;
+    }
+    @keyframes breathe{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+
+    .project-title{
+      text-align:center;
+      margin-bottom:42px;
+      position:relative; z-index:1;
+    }
+    .project-title h2{
+      font-family:'Syncopate',sans-serif;
+      font-size:2.6rem;
+      color:#fff;
+      text-transform:uppercase;
+      margin-bottom:10px;
+      letter-spacing:3px;
+      text-shadow:0 0 20px rgba(255,0,60,.45);
+    }
+    .project-title p{
+      color:#9a9a9a;
+      font-size:1.05rem;
+      letter-spacing:1px;
+      font-family:'JetBrains Mono',monospace;
+    }
+
+    .project-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:24px;
+      position:relative; z-index:1;
+      align-items:stretch;
+    }
+    .project-media{
+      border:1px solid #333;
+      background:#111;
+      overflow:hidden;
+      min-height:360px;
+      position:relative;
+    }
+    .project-media img{
+      width:100%; height:100%;
+      object-fit:cover;
+      opacity:.78;
+      transition:1s;
+      filter:brightness(.85) contrast(1.1);
+    }
+    .project-media:hover img{
+      transform:scale(1.06);
+      opacity:1;
+      filter:brightness(1) contrast(1.2);
+    }
+
+    .project-panel{
+      background:rgba(0,0,0,.74);
+      border:1px solid #222;
+      padding:28px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .project-panel h3{
+      font-family:'Syncopate',sans-serif;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      font-size:1.35rem;
+      margin-bottom:6px;
+      color:var(--secondary);
+    }
+    .project-panel p{
+      color:#c9c9c9;
+      line-height:1.8;
+      margin-bottom:10px;
+      font-size:1.02rem;
+    }
+    .project-links{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:6px;
+    }
+    .project-links a{
+      font-family:'JetBrains Mono',monospace;
+      text-decoration:none;
+      text-transform:uppercase;
+      font-size:.85rem;
+      padding:10px 12px;
+      border:1px solid #fff;
+      color:#fff;
+      transition:.25s;
+    }
+    .project-links a:hover{ background:#fff; color:#000; }
+    .project-links a.primary{
+      border-color:var(--primary);
+      color:var(--primary);
+    }
+    .project-links a.primary:hover{ background:var(--primary); color:#000; }
+
+    .press-kit{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;
+    }
+    .press-kit code{
+      font-family:'JetBrains Mono',monospace;
+      font-size:.85rem;
+      color:#d0d0d0;
+      background:rgba(255,255,255,.04);
+      border:1px solid #222;
+      padding:8px 10px;
+      user-select:all;
+    }
+
+    .contact-form{ display:flex; flex-direction:column; gap:14px; margin-top:18px; }
+    .contact-form input,.contact-form textarea{
+      background:rgba(20,20,20,.8);
+      border:1px solid #333;
+      padding:14px;
+      color:#fff;
+      font-family:'JetBrains Mono',monospace;
+      outline:none;
+      transition:.3s;
+    }
+    .contact-form input:focus,.contact-form textarea:focus{
+      border-color:var(--primary);
+      box-shadow:0 0 10px rgba(255,0,60,.45);
+    }
+    .contact-form textarea{ height:120px; resize:none; }
+    .form-btn{ width:100%; }
+
+    .links-section{ text-align:center; padding:90px 0; background:#080808; border-top:1px solid #111; }
+    .links-grid{ display:flex; justify-content:center; gap:26px; flex-wrap:wrap; margin-top:36px; }
+    .social-link{
+      font-size:1.2rem;
+      color:#666;
+      text-decoration:none;
+      border-bottom:1px solid transparent;
+      transition:.3s;
+      font-family:'JetBrains Mono',monospace;
+      letter-spacing:1px;
+      padding-bottom:6px;
+    }
+    .social-link:hover{ color:#fff; border-bottom:1px solid var(--primary); }
+
+    footer{
+      padding:26px 20px;
+      text-align:center;
+      color:#666;
+      font-family:'JetBrains Mono',monospace;
+      border-top:1px solid #111;
+      background:#050505;
+    }
+
+    .reveal{ opacity:0; transform:translateY(40px); transition:1s all ease; }
+    .reveal.active{ opacity:1; transform:translateY(0); }
+
+    @keyframes marquee{ 0%{ transform:translate(0,0);} 100%{ transform:translate(-100%,0);} }
+    @keyframes fadeUp{ to{ opacity:1; transform:translateY(0);} }
+    @keyframes glitchText{ 0%{ opacity:0; clip-path:inset(0 0 0 0);} 5%{ opacity:1; clip-path:inset(10% 0 80% 0); transform:translate(-2px,2px);} 15%{ opacity:0;} }
+    @keyframes textGlitch{ 0%{ opacity:1;} 50%{ opacity:.72; transform:translate(1px,0);} 100%{ opacity:1;} }
+
+    @media (max-width:980px){
+      .grid-2{ grid-template-columns:1fr; }
+      .project-grid{ grid-template-columns:1fr; }
+      h1{ font-size:4rem; }
+      nav{ padding:15px 18px; flex-direction:column; gap:14px; }
+      .nav-links{ gap:18px; }
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .prelogo{ animation:none !important; }
+      #preloader{ display:none !important; }
+      .scanlines{ opacity:.08; }
+      *{ scroll-behavior:auto !important; }
+    }
+  </style>
+</head>
+
+<body class="lock-scroll">
+  <!-- Dota-like fly in -->
+  <div id="preloader" aria-hidden="true">
+    <div class="prelogo">
+      <div class="prelogo-ring"></div>
+      <div class="prelogo-mark">T</div>
+      <div class="prelogo-glitch"></div>
+    </div>
+  </div>
+
+  <div class="cursor"></div><div class="cursor-dot"></div>
+  <div class="scanlines"></div>
+  <div class="bg-overlay"></div>
+  <canvas id="matrix"></canvas>
+
+  <nav>
+    <div class="nav-left">
+      <div class="logo"><span class="dot"></span>TERAWWW</div>
+    </div>
+
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#philosophy">Philosophy</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+      <a class="cta-mini" href="https://store.steampowered.com/app/4312600/WriteNor/" target="_blank" rel="noopener noreferrer">WriteNor (Steam)</a>
+    </div>
+  </nav>
+
+  <header>
+    <div class="hero-content">
+      <h1>TERAWWW</h1>
+      <div class="hero-sub">
+        Indie developer crafting <b>psychological horror</b> and <b>meta-systems</b> where UI is part of the world.
+        I build experiences that feel like a <b>corrupted program</b> trying to overwrite the player.
+      </div>
+
+      <div class="hero-pill">
+        <div class="pill primary">Psychological Horror</div>
+        <div class="pill">Meta-Narrative</div>
+        <div class="pill">Diegetic UI</div>
+        <div class="pill">Systems + Atmosphere</div>
+      </div>
+
+      <div class="hero-btns">
+        <a href="#work" class="cta-btn">View Work</a>
+        <a href="https://writenor.github.io/" class="cta-btn alt" target="_blank" rel="noopener noreferrer">WriteNor Site</a>
+        <a href="https://store.steampowered.com/app/4312600/WriteNor/" class="cta-btn" target="_blank" rel="noopener noreferrer">WriteNor Steam</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="marquee">
+    <span>> STATUS: SOLO_DEV // SIGNAL: STABLE // PROJECT: WRITENOR // NEXT: BIGGER HORROR SYSTEMS // DO NOT TRUST THE INTERFACE ></span>
+  </div>
+
+  <section id="about" class="container">
+    <div class="grid-2 reveal">
+      <div class="text-block">
+        <h2>About</h2>
+        <p>
+          I’m <b>Terawww</b> — a solo indie developer. I focus on <b>psychological horror</b> and <b>meta design</b>:
+          systems that feel alive, interfaces that lie, and stories told through interaction.
+        </p>
+        <p>
+          My current flagship project is <b>WriteNor</b> — a meta-horror coding sim built around terminal commands,
+          corrupted logic, and an AI entity called <b>NORI</b>.
+        </p>
+
+        <div class="sys-log">
+          <span class="log-prefix">> DEV_PROFILE:</span> Terawww<br/>
+          <span class="log-prefix">> DOMAIN:</span> Psycho-horror / Meta / Diegetic UI<br/>
+          <span class="log-prefix">> ACTIVE_PROJECT:</span> <b>WriteNor</b> (Steam + Web)
+        </div>
+      </div>
+
+      <div class="text-block">
+        <h2>Focus</h2>
+        <div class="skills">
+          <div class="card">
+            <h3>Atmosphere Engineering</h3>
+            <p>Sound pressure, visual noise, pacing control, and subtle “wrongness” without cheap jumpscares.</p>
+          </div>
+          <div class="card">
+            <h3>System Horror</h3>
+            <p>Mechanics that behave like a hostile OS: logs, permissions, corrupted states, and unreliable feedback.</p>
+          </div>
+          <div class="card">
+            <h3>Diegetic Interfaces</h3>
+            <p>UI inside the world: screens, terminals, overlays, and interaction that feels physical.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="philosophy" class="container" style="border-top:1px solid #222;">
+    <div class="grid-2 reveal">
+      <div class="text-block">
+        <h2>Philosophy</h2>
+        <p><b>Horror works best when it’s logical.</b> Not explained — but consistent. The player should feel the rules, then realize the rules can be rewritten.</p>
+        <p><b>Meta</b> isn’t “breaking the 4th wall” for jokes. It’s turning the interface into a threat: menus, saves, prompts, and “helpful” systems that become unreliable.</p>
+        <div class="sys-log">
+          <span class="log-prefix">> DESIGN_NOTE:</span> “Make the player doubt the UI, not the monster.”<br/>
+          <span class="log-prefix">> PRIORITY:</span> Tension > Lore dumps > Explainers
+        </div>
+      </div>
+      <div class="text-block">
+        <h2>Availability</h2>
+        <p>Open to: feedback, collaborations (audio/VO/QA), press & festival contacts.</p>
+        <p>Not open to: unpaid “big teams”, asset flips, or work that breaks the project’s core tone.</p>
+        <div class="sys-log">
+          <span class="log-prefix">> CONTACT_POLICY:</span> clear scope / honest timelines / no nonsense
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" class="project-hero">
+    <div class="container">
+      <div class="project-title">
+        <h2>Featured Work</h2>
+        <p>// Current flagship project //</p>
+      </div>
+
+      <div class="project-grid reveal">
+        <div class="project-media">
+          <img src="https://writenor.github.io/Office.png" loading="lazy" alt="WriteNor screenshot">
+        </div>
+
+        <div class="project-panel">
+          <div>
+            <h3>WriteNor</h3>
+            <p>
+              Psychological meta-horror coding sim. Debug a corrupted system. Use terminal commands to bend reality.
+              An AI entity called <b>NORI</b> adapts to the player and the interface becomes part of the horror.
+            </p>
+            <div class="sys-log">
+              <span class="log-prefix">> MODULE:</span> WRITENOR_CORE<br/>
+              <span class="log-prefix">> GENRE:</span> Psychological / Meta / Horror<br/>
+              <span class="log-prefix">> STATUS:</span> Public page live / Demo available
+            </div>
+
+            <div class="project-links">
+              <a class="primary" href="https://store.steampowered.com/app/4312600/WriteNor/" target="_blank" rel="noopener noreferrer">Steam</a>
+              <a href="https://writenor.github.io/" target="_blank" rel="noopener noreferrer">Official Site</a>
+              <a href="https://terawww.itch.io/writenor" target="_blank" rel="noopener noreferrer">Demo (Itch)</a>
+            </div>
+
+            <div class="press-kit">
+              <code>Press: request via contact form</code>
+              <code>Logline: “A system that fights back.”</code>
+            </div>
+          </div>
+
+          <a class="cta-btn alt" href="https://store.steampowered.com/app/4312600/WriteNor/" target="_blank" rel="noopener noreferrer">Wishlist on Steam</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="container reveal">
+    <div class="text-block" style="max-width: 900px; margin: 0 auto;">
+      <h2>Contact</h2>
+      <p>Press / festivals / collaboration / bug reports — send a message. I’ll reply when I can.</p>
+
+      <!-- Replace endpoint if you want a separate inbox for dev page -->
+      <form action="https://formspree.io/f/mlgelkpz" method="POST" class="contact-form">
+        <input type="text" name="name" required placeholder="Name / Studio / Outlet">
+        <input type="email" name="_replyto" required placeholder="Email">
+        <textarea name="message" required placeholder="Message / Scope / Links..."></textarea>
+        <button type="submit" class="cta-btn form-btn">SEND_PACKET</button>
+      </form>
+
+      <div class="sys-log" style="margin-top:16px;">
+        <span class="log-prefix">> NOTE:</span> If you contact about WriteNor, include “WriteNor” in your message for faster routing.
+      </div>
+    </div>
+  </section>
+
+  <section id="community" class="links-section reveal">
+    <h2 style="font-family:'Syncopate',sans-serif; letter-spacing:2px;">LINKS</h2>
+    <div class="links-grid">
+      <a href="https://store.steampowered.com/app/4312600/WriteNor/" class="social-link" target="_blank" rel="noopener noreferrer">STEAM</a>
+      <a href="https://writenor.github.io/" class="social-link" target="_blank" rel="noopener noreferrer">WRITENOR SITE</a>
+      <a href="https://discord.gg/QD5mUt44n5" class="social-link" target="_blank" rel="noopener noreferrer">DISCORD</a>
+      <a href="https://www.youtube.com/@WriteNor" class="social-link" target="_blank" rel="noopener noreferrer">YOUTUBE</a>
+      <a href="https://terawww.itch.io/writenor" class="social-link" target="_blank" rel="noopener noreferrer">ITCH</a>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> Terawww — All Rights Reserved.
+  </footer>
+
+  <script>
+    // Schema.org (Developer page + featured game)
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://terawww.github.io/#website",
+          "name": "Terawww",
+          "url": "https://terawww.github.io/",
+          "publisher": { "@id": "https://terawww.github.io/#person" }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://terawww.github.io/#person",
+          "name": "Terawww",
+          "description": "Indie game developer focused on psychological horror, meta-systems, and diegetic UI. Creator of WriteNor.",
+          "url": "https://terawww.github.io/",
+          "sameAs": [
+            "https://store.steampowered.com/app/4312600/WriteNor/",
+            "https://writenor.github.io/",
+            "https://terawww.itch.io/writenor",
+            "https://discord.gg/QD5mUt44n5",
+            "https://www.youtube.com/@WriteNor"
+          ]
+        },
+        {
+          "@type": "VideoGame",
+          "@id": "https://terawww.github.io/#writenor",
+          "name": "WriteNor",
+          "description": "Psychological meta-horror coding simulator with terminal-driven reality manipulation. Created by Terawww.",
+          "genre": ["Psychological Horror", "Meta Horror", "Simulation", "Indie"],
+          "gamePlatform": ["PC"],
+          "author": { "@id": "https://terawww.github.io/#person" },
+          "url": "https://store.steampowered.com/app/4312600/WriteNor/",
+          "sameAs": ["https://writenor.github.io/"],
+          "image": "https://writenor.github.io/Nori_Cover.png"
+        }
+      ]
+    };
+    const schemaScript = document.createElement("script");
+    schemaScript.type = "application/ld+json";
+    schemaScript.textContent = JSON.stringify(schemaData);
+    document.head.appendChild(schemaScript);
+
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Preloader timing: quick fly-in then vanish
+    window.addEventListener("load", () => {
+      const preloader = document.getElementById("preloader");
+
+      setTimeout(() => document.body.classList.remove("lock-scroll"), 120);
+
+      setTimeout(() => {
+        preloader.style.opacity = "0";
+        setTimeout(() => preloader.style.display = "none", 550);
+      }, 860);
+    });
+
+    // Smart cursor
+    const cursor = document.querySelector(".cursor");
+    const dot = document.querySelector(".cursor-dot");
+    if (window.matchMedia("(pointer: fine)").matches) {
+      document.addEventListener("mousemove", e => {
+        cursor.style.left = e.clientX + "px"; cursor.style.top = e.clientY + "px";
+        dot.style.left = e.clientX + "px"; dot.style.top = e.clientY + "px";
+      });
+      const interactiveEls = document.querySelectorAll("a, button, input, textarea");
+      for (let i = 0; i < interactiveEls.length; i++) {
+        const el = interactiveEls.item(i);
+        el.addEventListener("mouseenter", () => cursor.classList.add("hover-active"));
+        el.addEventListener("mouseleave", () => cursor.classList.remove("hover-active"));
+      }
+    }
+
+    // Matrix background (optimized)
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+    const letters = "TERAWWW/WRITENOR";
+    const fontSize = 14;
+    let columns = 0;
+    let drops = new Map();
+
+    function initDrops() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      columns = Math.floor(canvas.width / fontSize);
+      drops.clear();
+      for (let i = 0; i < columns; i++) drops.set(i, 1);
+    }
+    initDrops();
+
+    function draw() {
+      ctx.fillStyle = "rgba(0,0,0,0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#ff003c";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < columns; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        const d = drops.get(i);
+        ctx.fillText(text, i * fontSize, d * fontSize);
+
+        if (d * fontSize > canvas.height && Math.random() > 0.975) drops.set(i, 0);
+        else drops.set(i, d + 1);
+      }
+    }
+
+    let lastTime = 0;
+    function animate(t) {
+      if (t - lastTime > 40) {
+        draw();
+        lastTime = t;
+      }
+      requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+
+    let currentWidth = window.innerWidth;
+    window.addEventListener("resize", () => {
+      if (window.innerWidth !== currentWidth) {
+        initDrops();
+        currentWidth = window.innerWidth;
+      } else {
+        canvas.height = window.innerHeight;
+      }
+    });
+
+    // Reveal on scroll
+    function revealNow() {
+      const reveals = document.querySelectorAll(".reveal");
+      for (let i = 0; i < reveals.length; i++) {
+        if (reveals.item(i).getBoundingClientRect().top < window.innerHeight - 140) {
+          reveals.item(i).classList.add("active");
+        }
+      }
+    }
+    window.addEventListener("scroll", revealNow);
+    revealNow();
+  </script>
+</body>
+</html>
