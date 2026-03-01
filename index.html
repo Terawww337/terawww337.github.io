@@ -3,874 +3,1155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="google-site-verification" content="F5zGj_k6QVSh4Ty4REsjNVkaURm2vyCSN4TGWmYyRUI">
-  <meta http-equiv="X-UA-Compatible" nt="IE=edge" /conte>
-
-  <title>Terawww — Indie Developer | Psychological Horror & Meta Systems</title>
-  <meta name="title" content="Terawww — Indie Developer" />
+  <title>TERAWWW — Indie Developer | Psychological Horror & Meta Systems</title>
   <meta name="description" content="Terawww is an indie game developer focused on psychological horror, meta-systems, and diegetic UI. Creator of WriteNor." />
-  <meta name="author" content="Terawww" />
-  <meta name="creator" content="Terawww" />
-  <meta name="publisher" content="Terawww" />
   <meta name="theme-color" content="#ff003c" />
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-
   <link rel="canonical" href="https://terawww.github.io/" />
-  <link rel="icon" type="image/png" href="/favicon.png?v=7" />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://terawww.github.io/" />
-  <meta property="og:site_name" content="Terawww" />
-  <meta property="og:title" content="Terawww — Indie Developer" />
+  <meta property="og:title" content="TERAWWW — Indie Developer" />
   <meta property="og:description" content="Psychological horror, meta-systems, diegetic UI. Creator of WriteNor." />
   <meta property="og:image" content="https://writenor.github.io/Nori_Cover.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Terawww — Indie Developer" />
-  <meta name="twitter:description" content="Creator of WriteNor. Psychological horror & diegetic systems." />
-  <meta name="twitter:image" content="https://writenor.github.io/Nori_Cover.png" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Syncopate:wght@400;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --primary:#ff003c;
-      --secondary:#00f3ff;
-      --bg:#000;
-      --text-main:#f0f0f0;
-      --muted:#9a9a9a;
-      --panel: rgba(0,0,0,.78);
-      --border:#222;
+    :root {
+      --red: #ff003c;
+      --cyan: #00f3ff;
+      --yellow: #f5c518;
+      --bg: #020202;
+      --bg2: #070707;
+      --panel: rgba(8,8,8,0.92);
+      --text: #ececec;
+      --muted: #666;
+      --border: rgba(255,255,255,0.07);
     }
 
-    *{ margin:0; padding:0; box-sizing:border-box; cursor:none; }
-    body.lock-scroll{ overflow:hidden; }
-    body{ background:var(--bg); color:var(--text-main); font-family:'Rajdhani',sans-serif; overflow-x:hidden; width:100%; }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
 
-    @media (pointer: coarse){
-      *{ cursor:auto !important; }
-      .cursor, .cursor-dot{ display:none !important; }
-    }
-
-    canvas{ position:fixed; top:0; left:0; z-index:-3; }
-    .bg-overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.86); z-index:-2; pointer-events:none; }
-    .scanlines{
-      position:fixed; inset:0;
-      background:linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
-      background-size:100% 4px;
-      pointer-events:none; z-index:100;
-      opacity:.14; mix-blend-mode:overlay;
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
     }
 
-    .cursor{
-      width:20px; height:20px;
-      border:2px solid var(--primary);
-      border-radius:50%;
-      position:fixed; pointer-events:none; z-index:300;
-      transform:translate(-50%,-50%);
-      transition: transform .2s ease, background .2s ease, border-color .2s ease;
-      mix-blend-mode:difference;
-    }
-    .cursor-dot{
-      width:4px; height:4px; background:var(--primary);
-      border-radius:50%;
-      position:fixed; pointer-events:none; z-index:300;
-      transform:translate(-50%,-50%);
-    }
-    .cursor.hover-active{ transform:translate(-50%,-50%) scale(1.8); background:rgba(255,0,60,0.18); border-color:#fff; }
-
-    /* DOTА-STYLE: LOGO FLY-IN PRELOADER */
-    #preloader{
-      position:fixed; inset:0;
-      background:#000;
-      z-index:400;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      transition:opacity .55s ease;
-    }
-    .prelogo{
-      position:relative;
-      width:140px;
-      height:140px;
-      display:grid;
-      place-items:center;
-      transform: translateZ(0);
-      animation: flyIn 820ms cubic-bezier(.08,.82,.15,1) forwards;
-      will-change: transform, opacity, filter;
-    }
-    .prelogo-ring{
-      position:absolute;
-      inset:0;
-      border-radius:50%;
-      border:2px solid rgba(255,255,255,.35);
-      box-shadow: 0 0 30px rgba(255,0,60,.25), inset 0 0 26px rgba(0,243,255,.10);
-      animation: ringPulse 720ms ease-in-out infinite;
-    }
-    .prelogo-mark{
-      font-family:'Syncopate',sans-serif;
-      font-weight:700;
-      font-size:3.2rem;
-      letter-spacing:2px;
-      color:#fff;
-      text-shadow:
-        0 0 18px rgba(255,0,60,.35),
-        0 0 30px rgba(0,243,255,.18);
-      mix-blend-mode:screen;
-      user-select:none;
-    }
-    .prelogo-glitch{
-      position:absolute;
-      width:90px;
-      height:24px;
-      background:rgba(255,0,60,.10);
-      border:1px solid rgba(255,0,60,.35);
-      filter: blur(.2px);
-      opacity:0;
-      animation: glitchSlice 820ms ease-in-out forwards;
-    }
-    @keyframes flyIn{
-      0%   { opacity:0; transform:scale(.55) translateY(14px); filter: blur(8px); }
-      35%  { opacity:1; transform:scale(.95) translateY(0);     filter: blur(1px); }
-      70%  { opacity:1; transform:scale(6.0);                  filter: blur(0px); }
-      100% { opacity:0; transform:scale(9.0);                  filter: blur(1px); }
-    }
-    @keyframes ringPulse{
-      0%,100%{ transform:scale(1); opacity:.65; }
-      50%{ transform:scale(1.06); opacity:1; }
-    }
-    @keyframes glitchSlice{
-      0%   { opacity:0; transform:translateY(0) translateX(0) scaleX(1); }
-      25%  { opacity:.8; transform:translateY(-10px) translateX(10px) scaleX(1.2); }
-      45%  { opacity:.2; transform:translateY(6px) translateX(-14px) scaleX(.85); }
-      70%  { opacity:.7; transform:translateY(-4px) translateX(18px) scaleX(1.35); }
-      100% { opacity:0; transform:translateY(0) translateX(0) scaleX(1); }
+    @media (pointer: coarse) {
+      body { cursor: auto; }
+      .cursor, .cursor-trail { display: none !important; }
     }
 
-    nav{
-      position:fixed; top:0; width:100%;
-      padding:15px 40px;
-      display:flex; justify-content:space-between; align-items:center;
-      z-index:200;
-      background:rgba(0,0,0,.9);
-      border-bottom:1px solid #333;
-      backdrop-filter: blur(6px);
+    /* ── CURSOR ── */
+    .cursor {
+      position: fixed; z-index: 9999; pointer-events: none;
+      width: 12px; height: 12px;
+      background: var(--red);
+      border-radius: 50%;
+      transform: translate(-50%,-50%);
+      mix-blend-mode: difference;
+      transition: width .15s, height .15s, opacity .15s;
     }
-    .logo{
-      font-family:'Syncopate',sans-serif;
-      font-weight:700; font-size:1.25rem;
-      letter-spacing:2px; color:#fff;
-      display:flex; align-items:center; gap:10px;
+    .cursor-ring {
+      position: fixed; z-index: 9998; pointer-events: none;
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(255,0,60,0.55);
+      border-radius: 50%;
+      transform: translate(-50%,-50%);
+      transition: all .22s ease;
     }
-    .logo .dot{ width:8px; height:8px; background:var(--primary); border-radius:50%; box-shadow:0 0 12px rgba(255,0,60,.6); }
+    .cursor-ring.hovered { width: 56px; height: 56px; border-color: #fff; }
 
-    .nav-links{ display:flex; gap:26px; align-items:center; flex-wrap:wrap; justify-content:center; }
-    .nav-links a{
-      color:#aaa; text-decoration:none;
-      text-transform:uppercase;
-      font-weight:700; letter-spacing:1px;
-      transition:.3s;
-      font-size:.85rem;
-      font-family:'JetBrains Mono',monospace;
+    /* ── SCANLINES & NOISE ── */
+    .scanlines {
+      position: fixed; inset: 0; z-index: 100; pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.15) 2px,
+        rgba(0,0,0,0.15) 4px
+      );
+      opacity: .5;
     }
-    .nav-links a:hover{ color:#fff; text-shadow:0 0 5px #fff; }
-    .cta-mini{
-      color:var(--primary) !important;
-      border:1px solid var(--primary);
-      padding:6px 10px;
-      animation:textGlitch 2s infinite;
-    }
-
-    header{
-      min-height:100vh;
-      display:flex; align-items:center; justify-content:center;
-      text-align:center;
-      position:relative;
-      padding-top:70px;
-    }
-    .hero-content{
-      position:relative; z-index:10;
-      opacity:0; transform:translateY(18px);
-      animation:fadeUp 1.3s 0.25s forwards;
-      width:100%; max-width:1200px; padding:0 20px;
-      display:flex; flex-direction:column; align-items:center;
+    .vignette {
+      position: fixed; inset: 0; z-index: 99; pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.85) 100%);
     }
 
-    h1{
-      font-family:'Syncopate',sans-serif;
-      font-size:8vw; line-height:1;
-      text-transform:uppercase;
-      color:transparent;
-      -webkit-text-stroke:2px #fff;
-      position:relative;
-      letter-spacing:3px;
+    /* ── CANVAS BG ── */
+    #bg-canvas { position: fixed; top:0; left:0; z-index: -1; opacity: .35; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 500;
+      padding: 0 48px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(2,2,2,0.96);
+      border-bottom: 1px solid rgba(255,0,60,0.18);
+      backdrop-filter: blur(12px);
     }
-    h1::after{
-      content:'TERAWWW';
-      position:absolute; top:0; left:0; right:0;
-      color:#fff; opacity:0;
-      animation:glitchText 3s infinite alternate-reverse;
+    .nav-logo {
+      font-family: 'Syncopate', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      color: #fff; letter-spacing: 3px;
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 14px var(--red);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
+
+    .nav-links {
+      display: flex; gap: 32px; align-items: center;
+      list-style: none;
+    }
+    .nav-links a {
+      color: #666; font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem; letter-spacing: 1.5px; text-transform: uppercase;
+      text-decoration: none; transition: color .2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1px; background: var(--red);
+      transition: width .25s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      color: var(--red) !important;
+      border: 1px solid rgba(255,0,60,0.5);
+      padding: 7px 14px !important;
+    }
+    .nav-cta:hover { background: rgba(255,0,60,0.1) !important; }
+    .nav-cta::after { display: none !important; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding-top: 64px;
     }
 
-    .hero-sub{
-      margin-top:22px;
-      font-family:'JetBrains Mono',monospace;
-      font-size:1.05rem;
-      color:var(--muted);
-      letter-spacing:1.2px;
-      max-width:900px;
-      line-height:1.7;
-    }
-
-    .hero-pill{
-      margin-top:18px;
-      display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
-    }
-    .pill{
-      font-family:'JetBrains Mono',monospace;
-      font-size:.8rem;
-      color:var(--secondary);
-      border:1px solid rgba(0,243,255,.55);
-      padding:8px 12px;
-      text-transform:uppercase;
-      letter-spacing:1px;
-      background:rgba(0,243,255,.03);
-    }
-    .pill.primary{
-      color:#fff;
-      border-color:rgba(255,0,60,.65);
-      background:rgba(255,0,60,.05);
-    }
-
-    .hero-btns{
-      display:flex; justify-content:center; gap:16px;
-      flex-wrap:wrap;
-      width:100%;
-      margin-top:38px;
-    }
-    .cta-btn{
-      padding:14px 42px;
-      border:2px solid #fff;
-      color:#fff;
-      font-family:'JetBrains Mono',monospace;
-      font-weight:bold;
-      text-decoration:none;
-      text-transform:uppercase;
-      transition:.3s;
-      background:transparent;
-      letter-spacing:1px;
-      display:inline-block;
-    }
-    .cta-btn:hover{ background:#fff; color:#000; }
-    .cta-btn.alt{
-      border-color:var(--primary);
-      color:var(--primary);
-    }
-    .cta-btn.alt:hover{ background:var(--primary); color:#000; border-color:var(--primary); }
-
-    .marquee{
-      width:100%; overflow:hidden; white-space:nowrap;
-      background:var(--primary); color:#000;
-      padding:8px 0;
-      font-family:'JetBrains Mono',monospace;
-      font-weight:bold;
-      border-top:1px solid #fff;
-      border-bottom:1px solid #fff;
-    }
-    .marquee span{ display:inline-block; padding-left:100%; animation:marquee 22s linear infinite; }
-
-    .container{ max-width:1200px; margin:0 auto; padding:90px 20px; }
-    .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
-
-    .text-block{
-      background:var(--panel);
-      padding:40px;
-      border:1px solid var(--border);
-      border-left:5px solid var(--primary);
-      backdrop-filter: blur(6px);
-      box-shadow: 0 0 26px rgba(0,0,0,.55);
-    }
-    .text-block h2{
-      font-size:2.4rem;
-      margin-bottom:22px;
-      text-transform:uppercase;
-      padding-left:10px;
-      letter-spacing:2px;
-      font-family:'Syncopate',sans-serif;
-    }
-    .text-block p{
-      font-size:1.05rem;
-      line-height:1.85;
-      color:#cfcfcf;
-      margin-bottom:16px;
-    }
-    .text-block b{ color:#fff; }
-
-    .sys-log{
-      margin-top:18px;
-      font-family:'JetBrains Mono',monospace;
-      font-size:0.85rem;
-      line-height:1.6;
-      color:#777;
-      background:rgba(255,0,60,0.03);
-      border:1px solid #222;
-      border-left:3px solid var(--primary);
-      padding:15px;
-      letter-spacing:0.5px;
-    }
-    .sys-log b{ color:#bbb; font-weight:700; }
-    .sys-log .log-prefix{ color:var(--primary); font-weight:bold; }
-
-    .skills{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:16px;
-      margin-top:18px;
-    }
-    .card{
-      background:rgba(10,10,10,.92);
-      border:1px solid #222;
-      padding:26px;
-      transition:.25s;
-    }
-    .card:hover{ border-color:var(--primary); transform:translateY(-8px); }
-    .card h3{
-      font-family:'JetBrains Mono',monospace;
-      font-size:1rem;
-      letter-spacing:1px;
-      margin-bottom:10px;
-      text-transform:uppercase;
-      color:#fff;
-    }
-    .card p{ color:#bdbdbd; line-height:1.7; font-size:.98rem; }
-
-    .project-hero{
-      background:rgba(5,5,5,.95);
-      padding:90px 0;
-      border-top:2px solid var(--primary);
-      border-bottom:2px solid var(--secondary);
-      position:relative;
-    }
-    .project-hero::before{
-      content:'';
-      position:absolute; inset:0;
+    .hero-bg-line {
+      position: absolute; inset: 0; pointer-events: none;
       background:
-        radial-gradient(circle at 20% 50%, rgba(255,0,60,0.08) 0%, transparent 52%),
-        radial-gradient(circle at 80% 50%, rgba(0,243,255,0.08) 0%, transparent 52%);
-      pointer-events:none;
-      animation:breathe 8s ease-in-out infinite;
+        repeating-linear-gradient(90deg, rgba(255,0,60,0.03) 0px, transparent 1px, transparent 80px),
+        repeating-linear-gradient(0deg, rgba(255,0,60,0.03) 0px, transparent 1px, transparent 80px);
     }
-    @keyframes breathe{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
-
-    .project-title{
-      text-align:center;
-      margin-bottom:42px;
-      position:relative; z-index:1;
+    .hero-glow-l {
+      position: absolute; left: -10%; top: 30%; width: 55%; height: 55%;
+      background: radial-gradient(ellipse, rgba(255,0,60,0.12) 0%, transparent 68%);
+      pointer-events: none; filter: blur(40px);
     }
-    .project-title h2{
-      font-family:'Syncopate',sans-serif;
-      font-size:2.6rem;
-      color:#fff;
-      text-transform:uppercase;
-      margin-bottom:10px;
-      letter-spacing:3px;
-      text-shadow:0 0 20px rgba(255,0,60,.45);
-    }
-    .project-title p{
-      color:#9a9a9a;
-      font-size:1.05rem;
-      letter-spacing:1px;
-      font-family:'JetBrains Mono',monospace;
+    .hero-glow-r {
+      position: absolute; right: -10%; top: 25%; width: 50%; height: 50%;
+      background: radial-gradient(ellipse, rgba(0,243,255,0.07) 0%, transparent 68%);
+      pointer-events: none; filter: blur(40px);
     }
 
-    .project-grid{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:24px;
-      position:relative; z-index:1;
-      align-items:stretch;
-    }
-    .project-media{
-      border:1px solid #333;
-      background:#111;
-      overflow:hidden;
-      min-height:360px;
-      position:relative;
-    }
-    .project-media img{
-      width:100%; height:100%;
-      object-fit:cover;
-      opacity:.78;
-      transition:1s;
-      filter:brightness(.85) contrast(1.1);
-    }
-    .project-media:hover img{
-      transform:scale(1.06);
-      opacity:1;
-      filter:brightness(1) contrast(1.2);
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem; color: var(--red);
+      letter-spacing: 4px; text-transform: uppercase;
+      margin-bottom: 24px;
+      opacity: 0; animation: fadeUp .8s .2s forwards;
     }
 
-    .project-panel{
-      background:rgba(0,0,0,.74);
-      border:1px solid #222;
-      padding:28px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      gap:16px;
+    .hero-title-wrap {
+      position: relative; text-align: center;
+      opacity: 0; animation: fadeUp .9s .35s forwards;
     }
-    .project-panel h3{
-      font-family:'Syncopate',sans-serif;
-      letter-spacing:2px;
-      text-transform:uppercase;
-      font-size:1.35rem;
-      margin-bottom:6px;
-      color:var(--secondary);
+    /* 4:3 stretch effect: scaleX(1.33) makes 16:9 text look like 4:3-era stretched */
+    .hero-title {
+      font-family: 'Syncopate', sans-serif;
+      font-weight: 700;
+      font-size: clamp(5rem, 14vw, 13rem);
+      line-height: .88;
+      letter-spacing: -2px;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255,255,255,0.9);
+      display: block;
+      transform: scaleX(1.28) translateZ(0);
+      transform-origin: center;
+      user-select: none;
+      position: relative;
     }
-    .project-panel p{
-      color:#c9c9c9;
-      line-height:1.8;
-      margin-bottom:10px;
-      font-size:1.02rem;
+    .hero-title-ghost {
+      position: absolute; inset: 0;
+      font-family: 'Syncopate', sans-serif;
+      font-weight: 700;
+      font-size: clamp(5rem, 14vw, 13rem);
+      line-height: .88;
+      letter-spacing: -2px;
+      color: rgba(255,0,60,0.12);
+      display: block;
+      transform: scaleX(1.28) translateX(3px) translateY(3px);
+      transform-origin: center;
+      user-select: none;
+      pointer-events: none;
+      animation: glitch-shift 4s infinite;
     }
-    .project-links{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:6px;
-    }
-    .project-links a{
-      font-family:'JetBrains Mono',monospace;
-      text-decoration:none;
-      text-transform:uppercase;
-      font-size:.85rem;
-      padding:10px 12px;
-      border:1px solid #fff;
-      color:#fff;
-      transition:.25s;
-    }
-    .project-links a:hover{ background:#fff; color:#000; }
-    .project-links a.primary{
-      border-color:var(--primary);
-      color:var(--primary);
-    }
-    .project-links a.primary:hover{ background:var(--primary); color:#000; }
-
-    .press-kit{
-      display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;
-    }
-    .press-kit code{
-      font-family:'JetBrains Mono',monospace;
-      font-size:.85rem;
-      color:#d0d0d0;
-      background:rgba(255,255,255,.04);
-      border:1px solid #222;
-      padding:8px 10px;
-      user-select:all;
+    @keyframes glitch-shift {
+      0%,88%,100%{transform:scaleX(1.28) translate(3px,3px);opacity:.12}
+      90%{transform:scaleX(1.3) translate(-5px,2px);opacity:.2;filter:blur(1px)}
+      92%{transform:scaleX(1.26) translate(8px,-1px);opacity:.08}
+      94%{transform:scaleX(1.28) translate(3px,3px);opacity:.12}
     }
 
-    .contact-form{ display:flex; flex-direction:column; gap:14px; margin-top:18px; }
-    .contact-form input,.contact-form textarea{
-      background:rgba(20,20,20,.8);
-      border:1px solid #333;
-      padding:14px;
-      color:#fff;
-      font-family:'JetBrains Mono',monospace;
-      outline:none;
-      transition:.3s;
+    .hero-sub {
+      margin-top: 36px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(.78rem, 1.3vw, 1rem);
+      color: #555;
+      letter-spacing: 1px;
+      line-height: 1.9;
+      max-width: 640px;
+      text-align: center;
+      opacity: 0; animation: fadeUp .9s .55s forwards;
     }
-    .contact-form input:focus,.contact-form textarea:focus{
-      border-color:var(--primary);
-      box-shadow:0 0 10px rgba(255,0,60,.45);
+    .hero-sub span { color: #aaa; }
+
+    .hero-tags {
+      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+      margin-top: 28px;
+      opacity: 0; animation: fadeUp .9s .7s forwards;
     }
-    .contact-form textarea{ height:120px; resize:none; }
-    .form-btn{ width:100%; }
-
-    .links-section{ text-align:center; padding:90px 0; background:#080808; border-top:1px solid #111; }
-    .links-grid{ display:flex; justify-content:center; gap:26px; flex-wrap:wrap; margin-top:36px; }
-    .social-link{
-      font-size:1.2rem;
-      color:#666;
-      text-decoration:none;
-      border-bottom:1px solid transparent;
-      transition:.3s;
-      font-family:'JetBrains Mono',monospace;
-      letter-spacing:1px;
-      padding-bottom:6px;
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 7px 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #555;
+      background: rgba(255,255,255,0.02);
+      transition: .25s;
     }
-    .social-link:hover{ color:#fff; border-bottom:1px solid var(--primary); }
+    .tag.accent { border-color: rgba(255,0,60,0.35); color: rgba(255,0,60,0.7); background: rgba(255,0,60,0.04); }
+    .tag:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
 
-    footer{
-      padding:26px 20px;
-      text-align:center;
-      color:#666;
-      font-family:'JetBrains Mono',monospace;
-      border-top:1px solid #111;
-      background:#050505;
+    .hero-btns {
+      display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+      margin-top: 44px;
+      opacity: 0; animation: fadeUp .9s .85s forwards;
+    }
+    .btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem; letter-spacing: 1.5px; text-transform: uppercase;
+      text-decoration: none; padding: 14px 32px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      color: #ccc;
+      background: transparent;
+      transition: all .25s;
+      display: inline-flex; align-items: center; gap: 8px;
+      cursor: none;
+    }
+    .btn:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.05); }
+    .btn-primary { border-color: var(--red); color: var(--red); }
+    .btn-primary:hover { background: var(--red); color: #000; border-color: var(--red); }
+
+    .hero-scroll-hint {
+      position: absolute; bottom: 36px;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      opacity: 0; animation: fadeUp .9s 1.2s forwards;
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, transparent, rgba(255,0,60,0.7));
+      animation: scrollLine 1.8s ease-in-out infinite;
+    }
+    .scroll-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem; color: #333; letter-spacing: 3px; text-transform: uppercase;
+    }
+    @keyframes scrollLine { 0%,100%{opacity:.3;transform:scaleY(.5)} 50%{opacity:1;transform:scaleY(1)} }
+
+    /* ── TICKER ── */
+    .ticker {
+      background: var(--red); color: #000;
+      height: 38px; overflow: hidden; position: relative;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    .ticker-inner {
+      display: flex; align-items: center; height: 100%;
+      animation: ticker 28s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-inner span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem; font-weight: 700; letter-spacing: 2px;
+      padding: 0 40px;
+    }
+    .ticker-sep { opacity: .4; }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* ── SECTIONS BASE ── */
+    section { position: relative; }
+    .container { max-width: 1220px; margin: 0 auto; padding: 0 40px; }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; color: var(--red);
+      letter-spacing: 4px; text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Syncopate', sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      text-transform: uppercase; letter-spacing: 2px;
+      line-height: 1.1;
     }
 
-    .reveal{ opacity:0; transform:translateY(40px); transition:1s all ease; }
-    .reveal.active{ opacity:1; transform:translateY(0); }
+    /* ── ABOUT ── */
+    #about { padding: 120px 0; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px; align-items: start;
+    }
+    .about-left { position: sticky; top: 100px; }
+    .about-status {
+      margin-top: 28px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .status-row {
+      display: flex; align-items: center; gap: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem; color: #444;
+    }
+    .status-key { color: #333; min-width: 110px; }
+    .status-val { color: #888; }
+    .status-val.live { color: #22c55e; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; flex-shrink: 0; }
 
-    @keyframes marquee{ 0%{ transform:translate(0,0);} 100%{ transform:translate(-100%,0);} }
-    @keyframes fadeUp{ to{ opacity:1; transform:translateY(0);} }
-    @keyframes glitchText{ 0%{ opacity:0; clip-path:inset(0 0 0 0);} 5%{ opacity:1; clip-path:inset(10% 0 80% 0); transform:translate(-2px,2px);} 15%{ opacity:0;} }
-    @keyframes textGlitch{ 0%{ opacity:1;} 50%{ opacity:.72; transform:translate(1px,0);} 100%{ opacity:1;} }
+    .about-manifesto {
+      padding: 40px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-left: 3px solid var(--red);
+      background: rgba(255,0,60,0.02);
+    }
+    .manifesto-item { margin-bottom: 36px; }
+    .manifesto-item:last-child { margin-bottom: 0; }
+    .manifesto-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; color: var(--red);
+      letter-spacing: 2px; margin-bottom: 10px;
+    }
+    .manifesto-item h3 {
+      font-size: 1.15rem; font-weight: 700; color: #fff;
+      margin-bottom: 10px; letter-spacing: 0.5px;
+    }
+    .manifesto-item p {
+      font-size: 1rem; line-height: 1.8; color: #666;
+    }
+    .manifesto-item p strong { color: #aaa; font-weight: 600; }
 
-    @media (max-width:980px){
-      .grid-2{ grid-template-columns:1fr; }
-      .project-grid{ grid-template-columns:1fr; }
-      h1{ font-size:4rem; }
-      nav{ padding:15px 18px; flex-direction:column; gap:14px; }
-      .nav-links{ gap:18px; }
+    /* ── SKILLS GRID ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1px;
+      margin-top: 64px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.04);
+    }
+    .skill-cell {
+      background: var(--bg);
+      padding: 32px 28px;
+      transition: background .25s;
+    }
+    .skill-cell:hover { background: rgba(255,0,60,0.04); }
+    .skill-icon {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem; color: var(--red);
+      margin-bottom: 14px; display: block;
+    }
+    .skill-cell h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem; letter-spacing: 1px;
+      text-transform: uppercase; color: #bbb;
+      margin-bottom: 10px;
+    }
+    .skill-cell p { font-size: .95rem; line-height: 1.7; color: #555; }
+
+    /* ── WRITENOR SECTION ── */
+    #writenor {
+      padding: 0;
+      background: var(--bg2);
+      border-top: 1px solid rgba(255,0,60,0.15);
+      border-bottom: 1px solid rgba(0,243,255,0.1);
+      overflow: hidden;
     }
 
-    /* Respect reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      .prelogo{ animation:none !important; }
-      #preloader{ display:none !important; }
-      .scanlines{ opacity:.08; }
-      *{ scroll-behavior:auto !important; }
+    .writenor-header {
+      padding: 80px 0 60px;
+      text-align: center;
+      position: relative;
+    }
+    .writenor-header::after {
+      content: 'WRITENOR';
+      position: absolute; inset: 0;
+      font-family: 'Syncopate', sans-serif;
+      font-size: clamp(4rem,12vw,10rem);
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,0,60,0.06);
+      display: flex; align-items: center; justify-content: center;
+      letter-spacing: 8px; pointer-events: none;
+      text-transform: uppercase;
+    }
+
+    .writenor-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 600px;
+    }
+    .writenor-visual {
+      position: relative; overflow: hidden;
+      min-height: 500px;
+    }
+    .writenor-visual img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(.65) saturate(0.8) contrast(1.15);
+      transition: filter 1.2s ease, transform 1.2s ease;
+    }
+    .writenor-visual:hover img {
+      filter: brightness(.85) saturate(1) contrast(1.1);
+      transform: scale(1.04);
+    }
+    .writenor-visual-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, transparent 60%, var(--bg2));
+    }
+    .writenor-visual-bar {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--red), var(--cyan));
+    }
+
+    .writenor-info {
+      padding: 64px 56px;
+      display: flex; flex-direction: column;
+      justify-content: center; gap: 28px;
+    }
+    .writenor-name {
+      font-family: 'Syncopate', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--cyan);
+      text-shadow: 0 0 40px rgba(0,243,255,0.3);
+    }
+    .writenor-logline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.05rem; color: #555;
+      font-style: italic; letter-spacing: 0.5px;
+      padding-left: 16px;
+      border-left: 2px solid rgba(255,0,60,0.4);
+    }
+    .writenor-desc {
+      font-size: 1.05rem; line-height: 1.85; color: #666;
+    }
+    .writenor-desc strong { color: #aaa; }
+
+    .writenor-meta {
+      display: flex; flex-direction: column; gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem;
+    }
+    .meta-row { display: flex; gap: 16px; }
+    .meta-key { color: #333; min-width: 80px; }
+    .meta-val { color: #777; }
+    .meta-val.highlight { color: var(--cyan); }
+
+    .writenor-links {
+      display: flex; gap: 12px; flex-wrap: wrap;
+    }
+
+    /* ── FEATURES MARQUEE ── */
+    .features-strip {
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      overflow: hidden;
+    }
+    .features-inner {
+      display: flex; gap: 48px;
+      animation: ticker 20s linear infinite;
+      white-space: nowrap;
+    }
+    .feature-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem; letter-spacing: 2px; text-transform: uppercase;
+      color: #333; display: flex; align-items: center; gap: 10px;
+      flex-shrink: 0;
+    }
+    .feature-chip span { color: var(--red); }
+
+    /* ── PHILOSOPHY ── */
+    #philosophy { padding: 120px 0; }
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 60px;
+      background: rgba(255,255,255,0.04);
+    }
+    .philosophy-block {
+      background: var(--bg);
+      padding: 48px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    .philosophy-block::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 2px;
+      background: linear-gradient(to right, var(--red), transparent);
+      opacity: 0; transition: opacity .3s;
+    }
+    .philosophy-block:hover::before { opacity: 1; }
+    .philosophy-block h3 {
+      font-family: 'Syncopate', sans-serif;
+      font-size: 1rem; letter-spacing: 2px; text-transform: uppercase;
+      color: #fff; margin-bottom: 18px;
+    }
+    .philosophy-block p {
+      font-size: 1rem; line-height: 1.85; color: #555;
+    }
+    .philosophy-block p strong { color: #999; }
+    .philosophy-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; color: var(--red);
+      letter-spacing: 3px; margin-bottom: 14px;
+    }
+
+    .quote-block {
+      margin-top: 64px;
+      padding: 56px 64px;
+      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(255,0,60,0.02);
+      text-align: center;
+      position: relative;
+    }
+    .quote-block::before, .quote-block::after {
+      content: '';
+      position: absolute;
+      width: 40px; height: 2px;
+      background: var(--red);
+    }
+    .quote-block::before { top: 0; left: 0; }
+    .quote-block::after { bottom: 0; right: 0; }
+    .quote-text {
+      font-family: 'Syncopate', sans-serif;
+      font-size: clamp(1rem, 2.2vw, 1.55rem);
+      line-height: 1.7; color: #ccc;
+      letter-spacing: 1px;
+    }
+    .quote-attr {
+      margin-top: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem; color: #444;
+      letter-spacing: 3px; text-transform: uppercase;
+    }
+
+    /* ── CONTACT ── */
+    #contact { padding: 120px 0; background: var(--bg2); border-top: 1px solid rgba(255,255,255,0.04); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 80px;
+    }
+    .contact-info { }
+    .contact-info p {
+      font-size: 1rem; line-height: 1.85; color: #555;
+      margin-top: 18px;
+    }
+    .contact-details {
+      margin-top: 40px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .contact-item {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem;
+      display: flex; gap: 14px; align-items: center;
+      color: #444;
+    }
+    .contact-item a {
+      color: #666; text-decoration: none; transition: color .2s;
+    }
+    .contact-item a:hover { color: var(--red); }
+    .contact-key { color: var(--red); min-width: 70px; }
+
+    .contact-form { }
+    .form-row { display: flex; gap: 14px; }
+    .form-field {
+      display: flex; flex-direction: column; gap: 6px;
+      margin-bottom: 14px; flex: 1;
+    }
+    .form-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; color: #444;
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    .form-input, .form-textarea {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #ccc; font-family: 'JetBrains Mono', monospace;
+      font-size: .9rem; padding: 14px 16px;
+      outline: none; transition: border-color .25s, box-shadow .25s;
+      width: 100%;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: rgba(255,0,60,0.5);
+      box-shadow: 0 0 0 3px rgba(255,0,60,0.06);
+    }
+    .form-textarea { height: 130px; resize: none; }
+    .form-submit {
+      width: 100%; padding: 15px;
+      background: transparent;
+      border: 1.5px solid var(--red);
+      color: var(--red);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem; letter-spacing: 2px; text-transform: uppercase;
+      cursor: none; transition: all .25s;
+      margin-top: 4px;
+    }
+    .form-submit:hover { background: var(--red); color: #000; }
+
+    /* ── LINKS FOOTER ── */
+    #links {
+      padding: 80px 0;
+      border-top: 1px solid rgba(255,0,60,0.12);
+    }
+    .links-row {
+      display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    .link-item {
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem; letter-spacing: 2px; text-transform: uppercase;
+      color: #444; transition: color .25s;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .link-item:hover { color: #fff; }
+    .link-item:hover .link-line { width: 100%; background: var(--red); }
+    .link-line {
+      width: 20px; height: 1px; background: #333;
+      transition: width .25s, background .25s;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 40px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; color: #2a2a2a;
+    }
+    footer span { letter-spacing: 1px; }
+    .footer-signal {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .footer-signal-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #22c55e; box-shadow: 0 0 6px #22c55e;
+      animation: pulse 2.5s infinite;
+    }
+
+    /* ── REVEAL ANIMATIONS ── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    .reveal-l { opacity: 0; transform: translateX(-30px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal-l.active { opacity: 1; transform: translateX(0); }
+    .reveal-r { opacity: 0; transform: translateX(30px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal-r.active { opacity: 1; transform: translateX(0); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-left { position: static; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .writenor-main { grid-template-columns: 1fr; }
+      .writenor-visual { min-height: 340px; }
+      .writenor-visual-overlay { background: linear-gradient(to top, var(--bg2) 15%, transparent); }
+      .writenor-info { padding: 48px 40px; }
+      .philosophy-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) { display: none; }
+      .container { padding: 0 20px; }
+      .hero-title { font-size: clamp(3rem, 18vw, 5.5rem); transform: scaleX(1.22); }
+      .hero-title-ghost { font-size: clamp(3rem, 18vw, 5.5rem); transform: scaleX(1.22) translate(3px,3px); }
+      .skills-grid { grid-template-columns: 1fr; }
+      .writenor-info { padding: 32px 24px; }
+      .quote-block { padding: 36px 24px; }
+      footer { flex-direction: column; gap: 10px; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 
-<body class="lock-scroll">
-  <!-- Dota-like fly in -->
-  <div id="preloader" aria-hidden="true">
-    <div class="prelogo">
-      <div class="prelogo-ring"></div>
-      <div class="prelogo-mark">T</div>
-      <div class="prelogo-glitch"></div>
-    </div>
-  </div>
+<body>
+  <!-- cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
 
-  <div class="cursor"></div><div class="cursor-dot"></div>
+  <!-- visual effects -->
   <div class="scanlines"></div>
-  <div class="bg-overlay"></div>
-  <canvas id="matrix"></canvas>
+  <div class="vignette"></div>
+  <canvas id="bg-canvas"></canvas>
 
+  <!-- NAV -->
   <nav>
-    <div class="nav-left">
-      <div class="logo"><span class="dot"></span>TERAWWW</div>
-    </div>
-
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#philosophy">Philosophy</a>
-      <a href="#work">Work</a>
-      <a href="#contact">Contact</a>
-      <a class="cta-mini" href="https://store.steampowered.com/app/4312600/WriteNor/" target="_blank" rel="noopener noreferrer">WriteNor (Steam)</a>
-    </div>
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-dot"></div>
+      TERAWWW
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#writenor">WriteNor</a></li>
+      <li><a href="#philosophy">Philosophy</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="https://store.steampowered.com/developer/terawww" class="nav-cta" target="_blank" rel="noopener">Steam Dev ↗</a></li>
+    </ul>
   </nav>
 
-  <header>
-    <div class="hero-content">
-      <h1>TERAWWW</h1>
-      <div class="hero-sub">
-        Indie developer crafting <b>psychological horror</b> and <b>meta-systems</b> where UI is part of the world.
-        I build experiences that feel like a <b>corrupted program</b> trying to overwrite the player.
-      </div>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg-line"></div>
+    <div class="hero-glow-l"></div>
+    <div class="hero-glow-r"></div>
 
-      <div class="hero-pill">
-        <div class="pill primary">Psychological Horror</div>
-        <div class="pill">Meta-Narrative</div>
-        <div class="pill">Diegetic UI</div>
-        <div class="pill">Systems + Atmosphere</div>
-      </div>
+    <div class="hero-eyebrow">// Indie developer — Psychological horror & meta systems</div>
 
-      <div class="hero-btns">
-        <a href="#work" class="cta-btn">View Work</a>
-        <a href="https://writenor.github.io/" class="cta-btn alt" target="_blank" rel="noopener noreferrer">WriteNor Site</a>
-        <a href="https://store.steampowered.com/app/4312600/WriteNor/" class="cta-btn" target="_blank" rel="noopener noreferrer">WriteNor Steam</a>
-      </div>
+    <div class="hero-title-wrap">
+      <div class="hero-title-ghost" aria-hidden="true">TERAWWW</div>
+      <span class="hero-title">TERAWWW</span>
     </div>
-  </header>
 
-  <div class="marquee">
-    <span>> STATUS: SOLO_DEV // SIGNAL: STABLE // PROJECT: WRITENOR // NEXT: BIGGER HORROR SYSTEMS // DO NOT TRUST THE INTERFACE ></span>
+    <p class="hero-sub">
+      <span>Solo developer building</span> psychological horror <span>and</span> meta-systems<span> where the interface itself becomes the threat.</span>
+    </p>
+
+    <div class="hero-tags">
+      <div class="tag accent">Psychological Horror</div>
+      <div class="tag">Meta-Narrative</div>
+      <div class="tag">Diegetic UI</div>
+      <div class="tag">System Horror</div>
+      <div class="tag">Solo Dev</div>
+    </div>
+
+    <div class="hero-btns">
+      <a href="#writenor" class="btn btn-primary">View Flagship Project</a>
+      <a href="https://store.steampowered.com/developer/terawww" class="btn" target="_blank" rel="noopener">Steam Developer Page</a>
+      <a href="#contact" class="btn">Get in Touch</a>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span class="scroll-line"></span>
+      <span class="scroll-label">Scroll</span>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span>TERAWWW INTERACTIVE</span><span class="ticker-sep">///</span>
+      <span>PSYCHOLOGICAL HORROR</span><span class="ticker-sep">///</span>
+      <span>META-SYSTEMS</span><span class="ticker-sep">///</span>
+      <span>DIEGETIC UI</span><span class="ticker-sep">///</span>
+      <span>WRITENOR — STEAM</span><span class="ticker-sep">///</span>
+      <span>DO NOT TRUST THE INTERFACE</span><span class="ticker-sep">///</span>
+      <span>NORI IS WATCHING</span><span class="ticker-sep">///</span>
+      <span>SOLO DEVELOPER</span><span class="ticker-sep">///</span>
+      <!-- duplicate for seamless loop -->
+      <span>TERAWWW INTERACTIVE</span><span class="ticker-sep">///</span>
+      <span>PSYCHOLOGICAL HORROR</span><span class="ticker-sep">///</span>
+      <span>META-SYSTEMS</span><span class="ticker-sep">///</span>
+      <span>DIEGETIC UI</span><span class="ticker-sep">///</span>
+      <span>WRITENOR — STEAM</span><span class="ticker-sep">///</span>
+      <span>DO NOT TRUST THE INTERFACE</span><span class="ticker-sep">///</span>
+      <span>NORI IS WATCHING</span><span class="ticker-sep">///</span>
+      <span>SOLO DEVELOPER</span><span class="ticker-sep">///</span>
+    </div>
   </div>
 
-  <section id="about" class="container">
-    <div class="grid-2 reveal">
-      <div class="text-block">
-        <h2>About</h2>
-        <p>
-          I’m <b>Terawww</b> — a solo indie developer. I focus on <b>psychological horror</b> and <b>meta design</b>:
-          systems that feel alive, interfaces that lie, and stories told through interaction.
-        </p>
-        <p>
-          My current flagship project is <b>WriteNor</b> — a meta-horror coding sim built around terminal commands,
-          corrupted logic, and an AI entity called <b>NORI</b>.
-        </p>
-
-        <div class="sys-log">
-          <span class="log-prefix">> DEV_PROFILE:</span> Terawww<br/>
-          <span class="log-prefix">> DOMAIN:</span> Psycho-horror / Meta / Diegetic UI<br/>
-          <span class="log-prefix">> ACTIVE_PROJECT:</span> <b>WriteNor</b> (Steam + Web)
-        </div>
-      </div>
-
-      <div class="text-block">
-        <h2>Focus</h2>
-        <div class="skills">
-          <div class="card">
-            <h3>Atmosphere Engineering</h3>
-            <p>Sound pressure, visual noise, pacing control, and subtle “wrongness” without cheap jumpscares.</p>
-          </div>
-          <div class="card">
-            <h3>System Horror</h3>
-            <p>Mechanics that behave like a hostile OS: logs, permissions, corrupted states, and unreliable feedback.</p>
-          </div>
-          <div class="card">
-            <h3>Diegetic Interfaces</h3>
-            <p>UI inside the world: screens, terminals, overlays, and interaction that feels physical.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="philosophy" class="container" style="border-top:1px solid #222;">
-    <div class="grid-2 reveal">
-      <div class="text-block">
-        <h2>Philosophy</h2>
-        <p><b>Horror works best when it’s logical.</b> Not explained — but consistent. The player should feel the rules, then realize the rules can be rewritten.</p>
-        <p><b>Meta</b> isn’t “breaking the 4th wall” for jokes. It’s turning the interface into a threat: menus, saves, prompts, and “helpful” systems that become unreliable.</p>
-        <div class="sys-log">
-          <span class="log-prefix">> DESIGN_NOTE:</span> “Make the player doubt the UI, not the monster.”<br/>
-          <span class="log-prefix">> PRIORITY:</span> Tension > Lore dumps > Explainers
-        </div>
-      </div>
-      <div class="text-block">
-        <h2>Availability</h2>
-        <p>Open to: feedback, collaborations (audio/VO/QA), press & festival contacts.</p>
-        <p>Not open to: unpaid “big teams”, asset flips, or work that breaks the project’s core tone.</p>
-        <div class="sys-log">
-          <span class="log-prefix">> CONTACT_POLICY:</span> clear scope / honest timelines / no nonsense
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="work" class="project-hero">
+  <!-- ABOUT -->
+  <section id="about">
     <div class="container">
-      <div class="project-title">
-        <h2>Featured Work</h2>
-        <p>// Current flagship project //</p>
-      </div>
+      <div class="about-grid">
 
-      <div class="project-grid reveal">
-        <div class="project-media">
-          <img src="https://writenor.github.io/Office.png" loading="lazy" alt="WriteNor screenshot">
+        <div class="about-left reveal-l">
+          <div class="section-label">> DEV_PROFILE</div>
+          <h2 class="section-title">About<br>Terawww</h2>
+          <div class="about-status">
+            <div class="status-row"><span class="status-key">handle</span><span class="status-val">Terawww</span></div>
+            <div class="status-row"><span class="status-key">studio</span><span class="status-val">Terawww Interactive</span></div>
+            <div class="status-row"><span class="status-key">type</span><span class="status-val">Solo Dev</span></div>
+            <div class="status-row"><span class="status-key">domain</span><span class="status-val">Psycho-horror / Meta</span></div>
+            <div class="status-row">
+              <span class="status-key">status</span>
+              <span class="status-dot"></span>
+              <span class="status-val live">Active — In Development</span>
+            </div>
+            <div class="status-row"><span class="status-key">flagship</span><span class="status-val">WriteNor</span></div>
+          </div>
         </div>
 
-        <div class="project-panel">
-          <div>
-            <h3>WriteNor</h3>
-            <p>
-              Psychological meta-horror coding sim. Debug a corrupted system. Use terminal commands to bend reality.
-              An AI entity called <b>NORI</b> adapts to the player and the interface becomes part of the horror.
-            </p>
-            <div class="sys-log">
-              <span class="log-prefix">> MODULE:</span> WRITENOR_CORE<br/>
-              <span class="log-prefix">> GENRE:</span> Psychological / Meta / Horror<br/>
-              <span class="log-prefix">> STATUS:</span> Public page live / Demo available
+        <div class="about-right">
+          <div class="about-manifesto reveal">
+            <div class="manifesto-item">
+              <div class="manifesto-num">[01]</div>
+              <h3>Who I am</h3>
+              <p>A solo developer obsessed with <strong>making the player distrust the thing they're playing on.</strong> I build games where the UI is not just aesthetic — it's a weapon. Every menu, every prompt, every save slot can be part of the horror.</p>
             </div>
-
-            <div class="project-links">
-              <a class="primary" href="https://store.steampowered.com/app/4312600/WriteNor/" target="_blank" rel="noopener noreferrer">Steam</a>
-              <a href="https://writenor.github.io/" target="_blank" rel="noopener noreferrer">Official Site</a>
-              <a href="https://terawww.itch.io/writenor" target="_blank" rel="noopener noreferrer">Demo (Itch)</a>
+            <div class="manifesto-item">
+              <div class="manifesto-num">[02]</div>
+              <h3>What I make</h3>
+              <p>Psychological horror experiences built around <strong>systems that behave like a hostile OS</strong>. Not jump scares. Not cutscenes explaining the lore. Just a quiet wrongness that accumulates until the player isn't sure what's real inside the game.</p>
             </div>
-
-            <div class="press-kit">
-              <code>Press: request via contact form</code>
-              <code>Logline: “A system that fights back.”</code>
+            <div class="manifesto-item">
+              <div class="manifesto-num">[03]</div>
+              <h3>Why it matters</h3>
+              <p>Games are the only medium where the <strong>interface itself can be compromised.</strong> No film, no book, no other format can make the act of pressing a button feel threatening. That's the space I work in.</p>
             </div>
           </div>
 
-          <a class="cta-btn alt" href="https://store.steampowered.com/app/4312600/WriteNor/" target="_blank" rel="noopener noreferrer">Wishlist on Steam</a>
+          <div class="skills-grid reveal">
+            <div class="skill-cell">
+              <span class="skill-icon">//</span>
+              <h4>Atmosphere Engineering</h4>
+              <p>Sound pressure, visual noise, pacing control, and subtle wrongness without cheap jumpscares.</p>
+            </div>
+            <div class="skill-cell">
+              <span class="skill-icon">01</span>
+              <h4>System Horror</h4>
+              <p>Mechanics that behave like a hostile OS — logs, permissions, corrupted states, unreliable feedback.</p>
+            </div>
+            <div class="skill-cell">
+              <span class="skill-icon">[]</span>
+              <h4>Diegetic Interfaces</h4>
+              <p>UI inside the world: screens, terminals, overlays that feel physical and consequential.</p>
+            </div>
+            <div class="skill-cell">
+              <span class="skill-icon">◈</span>
+              <h4>Meta-Narrative</h4>
+              <p>Stories that use the game's own structure — saves, menus, restarts — as narrative devices.</p>
+            </div>
+            <div class="skill-cell">
+              <span class="skill-icon">AI</span>
+              <h4>Adaptive Entities</h4>
+              <p>Characters and systems that observe and respond to player behavior across sessions.</p>
+            </div>
+            <div class="skill-cell">
+              <span class="skill-icon">∿</span>
+              <h4>Audio Design</h4>
+              <p>Reactive soundscapes, corrupted audio, diegetic sound that erodes the sense of safety.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WRITENOR -->
+  <section id="writenor">
+    <div class="writenor-header">
+      <div class="container" style="position:relative;z-index:1;text-align:center">
+        <div class="section-label reveal">> FLAGSHIP_PROJECT</div>
+        <h2 class="section-title reveal" style="margin-top:8px">Featured Work</h2>
+      </div>
+    </div>
+
+    <div class="writenor-main">
+      <div class="writenor-visual">
+        <img src="https://writenor.github.io/Office.png" alt="WriteNor — office environment screenshot" loading="lazy" />
+        <div class="writenor-visual-overlay"></div>
+        <div class="writenor-visual-bar"></div>
+      </div>
+
+      <div class="writenor-info reveal-r">
+        <div>
+          <div class="section-label">> MODULE: WRITENOR_CORE</div>
+          <h3 class="writenor-name">WriteNor</h3>
+        </div>
+
+        <div class="writenor-logline">"A system that fights back."</div>
+
+        <p class="writenor-desc">
+          Psychological meta-horror coding sim. Debug a corrupted system using real terminal commands.
+          An adaptive AI entity called <strong>NORI</strong> observes every action, rewrites the environment,
+          and turns the interface itself into an instrument of horror.
+        </p>
+
+        <div class="writenor-meta">
+          <div class="meta-row"><span class="meta-key">GENRE</span><span class="meta-val">Psychological Horror · Meta · Simulation</span></div>
+          <div class="meta-row"><span class="meta-key">PLATFORM</span><span class="meta-val">PC (Steam + Itch)</span></div>
+          <div class="meta-row"><span class="meta-key">STATUS</span><span class="meta-val highlight">Demo Available · Wishlist Open</span></div>
+          <div class="meta-row"><span class="meta-key">STUDIO</span><span class="meta-val">Terawww Interactive</span></div>
+        </div>
+
+        <div class="writenor-links">
+          <a href="https://store.steampowered.com/app/4312600/WriteNor/" class="btn btn-primary" target="_blank" rel="noopener">Wishlist on Steam ↗</a>
+          <a href="https://terawww.itch.io/writenor" class="btn" target="_blank" rel="noopener">Demo on Itch ↗</a>
+          <a href="https://writenor.github.io/" class="btn" target="_blank" rel="noopener">Official Site ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="features-strip">
+      <div class="features-inner">
+        <div class="feature-chip"><span>◈</span> Terminal-driven gameplay</div>
+        <div class="feature-chip"><span>◈</span> Adaptive AI entity NORI</div>
+        <div class="feature-chip"><span>◈</span> Diegetic horror UI</div>
+        <div class="feature-chip"><span>◈</span> Corrupted system mechanics</div>
+        <div class="feature-chip"><span>◈</span> Meta-narrative design</div>
+        <div class="feature-chip"><span>◈</span> Reactive audio landscape</div>
+        <div class="feature-chip"><span>◈</span> No cheap jumpscares</div>
+        <div class="feature-chip"><span>◈</span> Terminal-driven gameplay</div>
+        <div class="feature-chip"><span>◈</span> Adaptive AI entity NORI</div>
+        <div class="feature-chip"><span>◈</span> Diegetic horror UI</div>
+        <div class="feature-chip"><span>◈</span> Corrupted system mechanics</div>
+        <div class="feature-chip"><span>◈</span> Meta-narrative design</div>
+        <div class="feature-chip"><span>◈</span> Reactive audio landscape</div>
+        <div class="feature-chip"><span>◈</span> No cheap jumpscares</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section id="philosophy">
+    <div class="container">
+      <div class="reveal" style="text-align:center;margin-bottom:0">
+        <div class="section-label" style="text-align:center">> DESIGN_MANIFESTO</div>
+        <h2 class="section-title" style="text-align:center;margin-top:8px">Philosophy</h2>
+      </div>
+
+      <div class="philosophy-grid reveal">
+        <div class="philosophy-block">
+          <div class="philosophy-num">[01]</div>
+          <h3>Horror Works Best When It's Logical</h3>
+          <p>Not explained — but <strong>consistent</strong>. The player must feel the rules exist. Then they realize the rules can be rewritten. The moment they question the system's honesty is the moment horror begins.</p>
+        </div>
+        <div class="philosophy-block">
+          <div class="philosophy-num">[02]</div>
+          <h3>The Interface Is The Monster</h3>
+          <p><strong>Menus, save files, prompts, helpful tooltips</strong> — all of it can become unreliable. Meta isn't breaking the fourth wall for a joke. It's making the act of playing feel unsafe.</p>
+        </div>
+        <div class="philosophy-block">
+          <div class="philosophy-num">[03]</div>
+          <h3>Tension Over Explanation</h3>
+          <p>No lore dumps. No exposition NPCs. Players should understand through <strong>doing</strong>, not reading. The horror lives in the space between expectation and what actually happens.</p>
+        </div>
+        <div class="philosophy-block">
+          <div class="philosophy-num">[04]</div>
+          <h3>Systems That Observe</h3>
+          <p>A game that watches the player — tracks patterns, adapts, <strong>remembers</strong> — is fundamentally different from a game that simply reacts. Observation creates presence. Presence creates dread.</p>
+        </div>
+      </div>
+
+      <div class="quote-block reveal">
+        <p class="quote-text">"Make the player doubt the UI, not the monster."</p>
+        <p class="quote-attr">— Terawww / Design Note #001</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info reveal-l">
+          <div class="section-label">> TRANSMISSION</div>
+          <h2 class="section-title" style="margin-top:8px">Get In Touch</h2>
+          <p>Press, festivals, collaborations, bug reports, feedback — send a message. Keep it real: clear scope, honest timeline.</p>
+          <p style="margin-top:12px">Mention <strong style="color:#aaa">WriteNor</strong> in your message for faster routing.</p>
+
+          <div class="contact-details">
+            <div class="contact-item">
+              <span class="contact-key">STEAM</span>
+              <a href="https://store.steampowered.com/developer/terawww" target="_blank" rel="noopener">store.steampowered.com/developer/terawww</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-key">DISCORD</span>
+              <a href="https://discord.gg/QD5mUt44n5" target="_blank" rel="noopener">discord.gg/QD5mUt44n5</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-key">YOUTUBE</span>
+              <a href="https://www.youtube.com/@WriteNor" target="_blank" rel="noopener">@WriteNor</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-key">ITCH</span>
+              <a href="https://terawww.itch.io/writenor" target="_blank" rel="noopener">terawww.itch.io/writenor</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-key">OPEN TO</span>
+              <span style="color:#555">Press / Festivals / Collab (audio, VO, QA)</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-key">NOT OPEN</span>
+              <span style="color:#555">Unpaid "big teams" / Asset flips</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form reveal-r">
+          <form action="https://formspree.io/f/mlgelkpz" method="POST">
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label">Name / Studio</label>
+                <input type="text" name="name" class="form-input" placeholder="Your handle or outlet" required>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Email</label>
+                <input type="email" name="_replyto" class="form-input" placeholder="your@email.com" required>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Subject</label>
+              <input type="text" name="subject" class="form-input" placeholder="Press / Collab / Feedback / Other">
+            </div>
+            <div class="form-field">
+              <label class="form-label">Message</label>
+              <textarea name="message" class="form-textarea" placeholder="Scope, context, links — keep it real." required></textarea>
+            </div>
+            <button type="submit" class="form-submit">Transmit Message ↗</button>
+          </form>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="contact" class="container reveal">
-    <div class="text-block" style="max-width: 900px; margin: 0 auto;">
-      <h2>Contact</h2>
-      <p>Press / festivals / collaboration / bug reports — send a message. I’ll reply when I can.</p>
-
-      <!-- Replace endpoint if you want a separate inbox for dev page -->
-      <form action="https://formspree.io/f/mlgelkpz" method="POST" class="contact-form">
-        <input type="text" name="name" required placeholder="Name / Studio / Outlet">
-        <input type="email" name="_replyto" required placeholder="Email">
-        <textarea name="message" required placeholder="Message / Scope / Links..."></textarea>
-        <button type="submit" class="cta-btn form-btn">SEND_PACKET</button>
-      </form>
-
-      <div class="sys-log" style="margin-top:16px;">
-        <span class="log-prefix">> NOTE:</span> If you contact about WriteNor, include “WriteNor” in your message for faster routing.
+  <!-- LINKS -->
+  <section id="links">
+    <div class="container">
+      <div class="reveal" style="text-align:center">
+        <div class="section-label" style="text-align:center">> EXTERNAL_LINKS</div>
+      </div>
+      <div class="links-row reveal">
+        <a href="https://store.steampowered.com/app/4312600/WriteNor/" class="link-item" target="_blank" rel="noopener">
+          <span>Steam</span><div class="link-line"></div>
+        </a>
+        <a href="https://store.steampowered.com/developer/terawww" class="link-item" target="_blank" rel="noopener">
+          <span>Dev Page</span><div class="link-line"></div>
+        </a>
+        <a href="https://writenor.github.io/" class="link-item" target="_blank" rel="noopener">
+          <span>WriteNor</span><div class="link-line"></div>
+        </a>
+        <a href="https://discord.gg/QD5mUt44n5" class="link-item" target="_blank" rel="noopener">
+          <span>Discord</span><div class="link-line"></div>
+        </a>
+        <a href="https://www.youtube.com/@WriteNor" class="link-item" target="_blank" rel="noopener">
+          <span>YouTube</span><div class="link-line"></div>
+        </a>
+        <a href="https://terawww.itch.io/writenor" class="link-item" target="_blank" rel="noopener">
+          <span>Itch.io</span><div class="link-line"></div>
+        </a>
       </div>
     </div>
   </section>
 
-  <section id="community" class="links-section reveal">
-    <h2 style="font-family:'Syncopate',sans-serif; letter-spacing:2px;">LINKS</h2>
-    <div class="links-grid">
-      <a href="https://store.steampowered.com/app/4312600/WriteNor/" class="social-link" target="_blank" rel="noopener noreferrer">STEAM</a>
-      <a href="https://writenor.github.io/" class="social-link" target="_blank" rel="noopener noreferrer">WRITENOR SITE</a>
-      <a href="https://discord.gg/QD5mUt44n5" class="social-link" target="_blank" rel="noopener noreferrer">DISCORD</a>
-      <a href="https://www.youtube.com/@WriteNor" class="social-link" target="_blank" rel="noopener noreferrer">YOUTUBE</a>
-      <a href="https://terawww.itch.io/writenor" class="social-link" target="_blank" rel="noopener noreferrer">ITCH</a>
-    </div>
-  </section>
-
+  <!-- FOOTER -->
   <footer>
-    © <span id="year"></span> Terawww — All Rights Reserved.
+    <span>© <span id="year"></span> Terawww Interactive — All rights reserved.</span>
+    <div class="footer-signal">
+      <div class="footer-signal-dot"></div>
+      <span>Signal stable — WriteNor active</span>
+    </div>
   </footer>
 
   <script>
-    // Schema.org (Developer page + featured game)
-    const schemaData = {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebSite",
-          "@id": "https://terawww.github.io/#website",
-          "name": "Terawww",
-          "url": "https://terawww.github.io/",
-          "publisher": { "@id": "https://terawww.github.io/#person" }
-        },
-        {
-          "@type": "Person",
-          "@id": "https://terawww.github.io/#person",
-          "name": "Terawww",
-          "description": "Indie game developer focused on psychological horror, meta-systems, and diegetic UI. Creator of WriteNor.",
-          "url": "https://terawww.github.io/",
-          "sameAs": [
-            "https://store.steampowered.com/app/4312600/WriteNor/",
-            "https://writenor.github.io/",
-            "https://terawww.itch.io/writenor",
-            "https://discord.gg/QD5mUt44n5",
-            "https://www.youtube.com/@WriteNor"
-          ]
-        },
-        {
-          "@type": "VideoGame",
-          "@id": "https://terawww.github.io/#writenor",
-          "name": "WriteNor",
-          "description": "Psychological meta-horror coding simulator with terminal-driven reality manipulation. Created by Terawww.",
-          "genre": ["Psychological Horror", "Meta Horror", "Simulation", "Indie"],
-          "gamePlatform": ["PC"],
-          "author": { "@id": "https://terawww.github.io/#person" },
-          "url": "https://store.steampowered.com/app/4312600/WriteNor/",
-          "sameAs": ["https://writenor.github.io/"],
-          "image": "https://writenor.github.io/Nori_Cover.png"
-        }
-      ]
-    };
-    const schemaScript = document.createElement("script");
-    schemaScript.type = "application/ld+json";
-    schemaScript.textContent = JSON.stringify(schemaData);
-    document.head.appendChild(schemaScript);
+    // ── YEAR ──
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Year
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // Preloader timing: quick fly-in then vanish
-    window.addEventListener("load", () => {
-      const preloader = document.getElementById("preloader");
-
-      setTimeout(() => document.body.classList.remove("lock-scroll"), 120);
-
-      setTimeout(() => {
-        preloader.style.opacity = "0";
-        setTimeout(() => preloader.style.display = "none", 550);
-      }, 860);
-    });
-
-    // Smart cursor
-    const cursor = document.querySelector(".cursor");
-    const dot = document.querySelector(".cursor-dot");
-    if (window.matchMedia("(pointer: fine)").matches) {
-      document.addEventListener("mousemove", e => {
-        cursor.style.left = e.clientX + "px"; cursor.style.top = e.clientY + "px";
-        dot.style.left = e.clientX + "px"; dot.style.top = e.clientY + "px";
+    // ── CURSOR ──
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    if (window.matchMedia('(pointer: fine)').matches) {
+      let mx = 0, my = 0, rx = 0, ry = 0;
+      document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+      function animCursor() {
+        cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+        rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
+        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        requestAnimationFrame(animCursor);
+      }
+      requestAnimationFrame(animCursor);
+      document.querySelectorAll('a, button, input, textarea').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
       });
-      const interactiveEls = document.querySelectorAll("a, button, input, textarea");
-      for (let i = 0; i < interactiveEls.length; i++) {
-        const el = interactiveEls.item(i);
-        el.addEventListener("mouseenter", () => cursor.classList.add("hover-active"));
-        el.addEventListener("mouseleave", () => cursor.classList.remove("hover-active"));
-      }
     }
 
-    // Matrix background (optimized)
-    const canvas = document.getElementById("matrix");
-    const ctx = canvas.getContext("2d");
-    const letters = "TERAWWW/WRITENOR";
-    const fontSize = 14;
-    let columns = 0;
-    let drops = new Map();
+    // ── CANVAS PARTICLE BG ──
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
 
-    function initDrops() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      columns = Math.floor(canvas.width / fontSize);
-      drops.clear();
-      for (let i = 0; i < columns; i++) drops.set(i, 1);
-    }
-    initDrops();
+    const chars = 'TERAWWW01WRITENORNORI//><[]{}';
+    const cols = Math.floor(window.innerWidth / 16);
+    const drops = Array.from({length: cols}, () => Math.random() * -50);
 
-    function draw() {
-      ctx.fillStyle = "rgba(0,0,0,0.05)";
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(2,2,2,0.06)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#ff003c";
-      ctx.font = fontSize + "px monospace";
-
-      for (let i = 0; i < columns; i++) {
-        const text = letters.charAt(Math.floor(Math.random() * letters.length));
-        const d = drops.get(i);
-        ctx.fillText(text, i * fontSize, d * fontSize);
-
-        if (d * fontSize > canvas.height && Math.random() > 0.975) drops.set(i, 0);
-        else drops.set(i, d + 1);
+      ctx.font = '13px "JetBrains Mono", monospace';
+      for (let i = 0; i < drops.length; i++) {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        const alpha = Math.random() * 0.4 + 0.05;
+        ctx.fillStyle = `rgba(255,0,60,${alpha})`;
+        ctx.fillText(char, i * 16, drops[i] * 16);
+        if (drops[i] * 16 > canvas.height && Math.random() > 0.978) drops[i] = 0;
+        else drops[i] += 0.4;
       }
     }
+    setInterval(drawMatrix, 55);
 
-    let lastTime = 0;
-    function animate(t) {
-      if (t - lastTime > 40) {
-        draw();
-        lastTime = t;
-      }
-      requestAnimationFrame(animate);
+    // ── SCROLL REVEAL ──
+    function reveal() {
+      document.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active');
+      });
     }
-    requestAnimationFrame(animate);
+    window.addEventListener('scroll', reveal, { passive: true });
+    reveal();
 
-    let currentWidth = window.innerWidth;
-    window.addEventListener("resize", () => {
-      if (window.innerWidth !== currentWidth) {
-        initDrops();
-        currentWidth = window.innerWidth;
-      } else {
-        canvas.height = window.innerHeight;
-      }
-    });
-
-    // Reveal on scroll
-    function revealNow() {
-      const reveals = document.querySelectorAll(".reveal");
-      for (let i = 0; i < reveals.length; i++) {
-        if (reveals.item(i).getBoundingClientRect().top < window.innerHeight - 140) {
-          reveals.item(i).classList.add("active");
-        }
-      }
+    // ── HERO TITLE GLITCH on hover ──
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+      let glitchInt = null;
+      heroTitle.addEventListener('mouseenter', () => {
+        glitchInt = setInterval(() => {
+          heroTitle.style.transform = `scaleX(${1.28 + (Math.random() - 0.5) * 0.06}) skewX(${(Math.random()-0.5)*1.5}deg)`;
+          setTimeout(() => { heroTitle.style.transform = 'scaleX(1.28)'; }, 80);
+        }, 180);
+      });
+      heroTitle.addEventListener('mouseleave', () => {
+        clearInterval(glitchInt);
+        heroTitle.style.transform = 'scaleX(1.28)';
+      });
     }
-    window.addEventListener("scroll", revealNow);
-    revealNow();
   </script>
 </body>
 </html>
