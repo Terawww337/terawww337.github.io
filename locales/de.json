@@ -1,0 +1,209 @@
+{
+  "title": "Terawww (Teraw) — unabhängiger Spieleentwickler · WriteNor",
+  "description": "Terawww, auch bekannt als Teraw und Терав, ist ein unabhängiger Spieleentwickler und der Schöpfer von WriteNor, einem psychologischen Horror aus der Egoperspektive. Offizielles Portfolio.",
+  "role": "Unabhängiger Spieleentwickler",
+  "nav": [
+    "Über mich",
+    "WriteNor",
+    "Ansatz",
+    "Kontakt"
+  ],
+  "skip": "Zum Inhalt springen",
+  "menu": "Menü",
+  "navlabel": "Hauptnavigation",
+  "language": "Sprache",
+  "effects": "Effekte: an",
+  "effectsoff": "Effekte: aus",
+  "home": "Terawww — Startseite",
+  "avatar": "Terawww — unabhängiger Spieleentwickler und Schöpfer von WriteNor",
+  "eyebrow": "// Solo-Entwickler · psychologischer Horror",
+  "sub": "Ich bin <span>Terawww</span>. Ich entwickle psychologische Horrorspiele über <span>Erinnerung, Wahrnehmung und das, was wir ungeklärt zurücklassen.</span> Schöpfer von <span>WriteNor</span>.",
+  "tags": [
+    "Psychologischer Horror",
+    "Narratives Design",
+    "Atmosphäre",
+    "Indie-Spiele",
+    "Solo-Entwicklung"
+  ],
+  "buttons": [
+    "WriteNor entdecken",
+    "Entwickler auf Steam",
+    "Kontakt aufnehmen"
+  ],
+  "scroll": "Weiter scrollen",
+  "ticker": [
+    "TERAWWW",
+    "UNABHÄNGIGER SPIELEENTWICKLER",
+    "PSYCHOLOGISCHER HORROR",
+    "WRITENOR — DEMO VERFÜGBAR",
+    "ERINNERUNG / WAHRNEHMUNG",
+    "SOLO-ENTWICKLUNG"
+  ],
+  "about": "Über mich<br>Terawww",
+  "profile": [
+    [
+      "Pseudonym",
+      "Terawww"
+    ],
+    [
+      "weitere Namen",
+      "Teraw · Терав · Тераввв"
+    ],
+    [
+      "Tätigkeit",
+      "Spieleentwickler"
+    ],
+    [
+      "Schwerpunkt",
+      "Psychologischer Horror"
+    ],
+    [
+      "Status",
+      "Entwickle WriteNor"
+    ],
+    [
+      "aktuelles Spiel",
+      "WriteNor"
+    ]
+  ],
+  "aboutblocks": [
+    [
+      "Wer ich bin",
+      "<strong>Terawww ist mein Entwicklername.</strong> Vielleicht kennst du mich auch als Teraw, Терав oder Тераввв. Dies ist mein offizielles Portfolio: Hier findest du mein Spiel, seinen aktuellen Entwicklungsstand und meine öffentlichen Profile."
+    ],
+    [
+      "Was ich entwickle",
+      "Ich entwickle <strong>unabhängige psychologische Horrorspiele</strong>. Mein aktuelles Projekt ist WriteNor: eine Geschichte aus der Egoperspektive, in der eine erstarrte Gegenwart auf Erinnerungen trifft, die sich weiter entfalten."
+    ],
+    [
+      "Was mich interessiert",
+      "Das Detail, das du beinahe übersiehst. Ein vertrauter Raum, der sich anders anfühlt. Ein Gespräch, das bei einer späteren Erinnerung eine neue Bedeutung bekommt. Ich möchte, dass <strong>Neugier und Unbehagen</strong> die Spieler durch die Geschichte führen."
+    ]
+  ],
+  "skills": [
+    [
+      "//",
+      "Atmosphäre",
+      "Räume, Licht und Rhythmus, die einen gewöhnlichen Ort fremd wirken lassen."
+    ],
+    [
+      "01",
+      "Erkundung",
+      "Details in der Umgebung, die Aufmerksamkeit belohnen und Fragen aufwerfen."
+    ],
+    [
+      "[]",
+      "Oberflächen in der Spielwelt",
+      "Nachrichten, Bildschirme und Dateien als Teil der Nachforschungen."
+    ],
+    [
+      "◈",
+      "Narratives Design",
+      "Erinnerungen, Dialoge und kleine Entdeckungen, die die Wirkung einer Szene verändern."
+    ],
+    [
+      "↻",
+      "Erinnerung und Wahrnehmung",
+      "Mich interessiert die Lücke zwischen dem, was geschehen ist, und dem, woran sich jemand erinnert."
+    ],
+    [
+      "∿",
+      "Klang und Spannung",
+      "Stille, Entfernung und Rhythmus als Teil der Atmosphäre einer Szene."
+    ]
+  ],
+  "work": "Aktuelles Spiel",
+  "screenshot": "WriteNor — Büro aus Johnnys Vergangenheit",
+  "logline": "„Ein Tag, der nicht endet. Eine Vergangenheit, die nicht loslässt.“",
+  "gamedesc": "<strong>WriteNor ist ein psychologisches Horrorspiel aus der Egoperspektive.</strong> Johnnys Gegenwart steht still, während Erinnerungen ihn ein Jahr zurückführen: ins Büro und zu Nori. Erkunde die Umgebung, lies Nachrichten und finde heraus, warum sich diese beiden Realitäten annähern. Manche Wahrheiten kommen erst ans Licht, wenn du bereit bist, dich zu erinnern.",
+  "meta": [
+    [
+      "GENRE",
+      "Psychologischer Horror · Adventure"
+    ],
+    [
+      "PLATTFORMEN",
+      "Windows · Linux"
+    ],
+    [
+      "STATUS",
+      "In Entwicklung · Demo verfügbar"
+    ],
+    [
+      "ERSCHEINUNG",
+      "Wird noch angekündigt"
+    ],
+    [
+      "ENTWICKLER",
+      "Terawww"
+    ]
+  ],
+  "gamelinks": [
+    "Steam-Wunschliste ↗",
+    "Demo spielen ↗",
+    "Offizielle Spielseite ↗"
+  ],
+  "chips": [
+    "Eine erstarrte Gegenwart",
+    "Eine sich entfaltende Vergangenheit",
+    "Erkundung",
+    "Dialogentscheidungen",
+    "Dateien und Nachrichten",
+    "Atmosphärische Rätsel",
+    "Nori"
+  ],
+  "archiveheading": "Prototyp von WriteNor",
+  "archive": "The Last Command ist ein früher Prototyp des zukünftigen Spiels WriteNor von Terawww. Er ist auf itch.io für Windows und Linux verfügbar. Die erste Beta wurde im August 2025 veröffentlicht.",
+  "archivelink": "The Last Command entdecken ↗",
+  "communitylabel": "WriteNor-Community",
+  "approach": "Mein Ansatz",
+  "philosophy": [
+    [
+      "Ein vertrauter Ort, ein fremdes Detail",
+      "Eine Szene kann beunruhigen, bevor überhaupt etwas geschieht. <strong>Kleine Veränderungen</strong> geben einen Grund, genauer hinzusehen."
+    ],
+    [
+      "Neugier kommt zuerst",
+      "Ich möchte, dass die Spieler weitergehen, weil sie den Ort, die Menschen und die Erinnerung dahinter <strong>verstehen müssen</strong>."
+    ],
+    [
+      "Die Spieler entdecken lassen",
+      "Ein Raum, eine Nachricht oder eine Gesprächspause können eine Geschichte erzählen. Ich bevorzuge <strong>Details, die die Spieler selbst finden</strong>, statt alle Antworten auf einmal zu geben."
+    ],
+    [
+      "Emotionen hinterlassen Spuren",
+      "Horror bleibt bei uns, wenn etwas Menschliches dahintersteckt. <strong>Erinnerung, Abwesenheit und unvollendete Gespräche</strong> bilden das Herz von WriteNor."
+    ]
+  ],
+  "quote": "„Die Spieler sollen sich erinnern wollen — auch wenn es wehtut.“",
+  "quoteattr": "— Terawww / Kreative Ausrichtung",
+  "contact": "Kontakt aufnehmen",
+  "contactp": "Für Presse, Festivals, Ideen zur Zusammenarbeit und Rückmeldungen zu meinen Spielen. Erzähl mir von deiner Idee und füge hilfreiche Links hinzu.",
+  "contactp2": "Bei einer Fehlermeldung zu WriteNor nenne bitte deine Plattform und beschreibe, was passiert ist.",
+  "open": "OFFEN FÜR",
+  "opento": "Presse · Festivals · Zusammenarbeit an Spielen",
+  "name": "Name / Studio",
+  "nameplaceholder": "Dein Name oder deine Redaktion",
+  "email": "E-Mail",
+  "emailplaceholder": "you@example.com",
+  "subject": "Betreff",
+  "subjectplaceholder": "Presse / Zusammenarbeit / Feedback",
+  "message": "Nachricht",
+  "messageplaceholder": "Kontext, Einzelheiten und hilfreiche Links.",
+  "submit": "Nachricht senden ↗",
+  "external": "> OFFIZIELLE_LINKS",
+  "footer": "Terawww — unabhängiger Spieleentwickler",
+  "signal": "WriteNor — in Entwicklung",
+  "privacy": "Deine Nachricht wird über Formspree gesendet.",
+  "lang": "de",
+  "htmlLang": "de",
+  "oglocale": "de_DE",
+  "auto": "Auto",
+  "effectsreduced": "Effekte: reduziert",
+  "featureslabel": "Merkmale von WriteNor",
+  "devlabel": "> ENTWICKLERPROFIL",
+  "currentlabel": "> AKTUELLES_PROJEKT",
+  "approachlabel": "> KREATIVER_ANSATZ",
+  "transmissionlabel": "> VERBINDUNG",
+  "reducedtitle": "In deinem System sind reduzierte Bewegungen aktiviert"
+}

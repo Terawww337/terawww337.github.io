@@ -1,0 +1,209 @@
+{
+  "title": "Terawww（Teraw）— 独立游戏开发者 · WriteNor",
+  "description": "Terawww，也称Teraw或Терав，是独立游戏开发者，也是第一人称心理恐怖游戏WriteNor的作者。这里是其官方作品集网站。",
+  "role": "独立游戏开发者",
+  "nav": [
+    "关于我",
+    "WriteNor",
+    "创作理念",
+    "联系"
+  ],
+  "skip": "跳转到正文",
+  "menu": "菜单",
+  "navlabel": "主导航",
+  "language": "语言",
+  "effects": "特效：开",
+  "effectsoff": "特效：关",
+  "home": "Terawww — 首页",
+  "avatar": "Terawww — 独立游戏开发者，WriteNor的作者",
+  "eyebrow": "// 个人开发 · 心理恐怖",
+  "sub": "我是<span>Terawww</span>。我创作的心理恐怖游戏围绕着<span>记忆、感知，以及那些始终未能解决的事。</span>我是<span>WriteNor</span>的作者。",
+  "tags": [
+    "心理恐怖",
+    "叙事设计",
+    "氛围",
+    "独立游戏",
+    "个人开发"
+  ],
+  "buttons": [
+    "了解WriteNor",
+    "Steam开发者页面",
+    "联系我"
+  ],
+  "scroll": "向下滚动",
+  "ticker": [
+    "TERAWWW",
+    "独立游戏开发者",
+    "心理恐怖",
+    "WRITENOR — 试玩版现已推出",
+    "记忆 / 感知",
+    "个人开发"
+  ],
+  "about": "关于我<br>Terawww",
+  "profile": [
+    [
+      "开发者名",
+      "Terawww"
+    ],
+    [
+      "其他名字",
+      "Teraw · Терав · Тераввв"
+    ],
+    [
+      "职业",
+      "游戏开发者"
+    ],
+    [
+      "创作方向",
+      "心理恐怖"
+    ],
+    [
+      "当前状态",
+      "正在开发WriteNor"
+    ],
+    [
+      "当前作品",
+      "WriteNor"
+    ]
+  ],
+  "aboutblocks": [
+    [
+      "我是谁",
+      "<strong>Terawww是我作为开发者使用的名字。</strong>你也可能通过Teraw、Терав或Тераввв这些名字认识我。这是我的官方作品集网站，你可以在这里找到我的游戏、当前开发状态和公开链接。"
+    ],
+    [
+      "我在创作什么",
+      "我开发<strong>独立心理恐怖游戏</strong>。当前项目是WriteNor：一个以第一人称展开的故事，停滞的现在与不断向前延展的记忆在此交汇。"
+    ],
+    [
+      "什么吸引着我",
+      "几乎被忽略的细节。熟悉却又感觉不同的房间。回想时才发现含义已变的对话。我希望<strong>好奇与不安</strong>能引导玩家走进故事深处。"
+    ]
+  ],
+  "skills": [
+    [
+      "//",
+      "氛围",
+      "通过空间、光线和节奏，让普通的地方变得陌生。"
+    ],
+    [
+      "01",
+      "探索",
+      "用环境细节回报细心观察，并引出新的疑问。"
+    ],
+    [
+      "[]",
+      "融入世界的界面",
+      "让消息、屏幕和文件成为玩家调查的一部分。"
+    ],
+    [
+      "◈",
+      "叙事设计",
+      "通过记忆、对话和小小的发现，改变玩家对场景的感受。"
+    ],
+    [
+      "↻",
+      "记忆与感知",
+      "我关注真实发生的事与人们所记得的事之间的差距。"
+    ],
+    [
+      "∿",
+      "声音与紧张感",
+      "将寂静、距离与节奏融入场景氛围。"
+    ]
+  ],
+  "work": "当前作品",
+  "screenshot": "WriteNor — 强尼过去的办公室",
+  "logline": "“无法结束的一天。不肯放手的过去。”",
+  "gamedesc": "<strong>WriteNor是一款第一人称心理恐怖游戏。</strong>强尼的现在停滞不前，记忆却将他带回一年前，回到办公室，回到诺莉身边。探索环境，阅读消息，拼凑出这两种现实为何正逐渐靠近。有些真相，只有在你愿意回忆时才会浮现。",
+  "meta": [
+    [
+      "类型",
+      "心理恐怖 · 冒险"
+    ],
+    [
+      "平台",
+      "Windows · Linux"
+    ],
+    [
+      "状态",
+      "开发中 · 试玩版已推出"
+    ],
+    [
+      "发售日期",
+      "待公布"
+    ],
+    [
+      "开发者",
+      "Terawww"
+    ]
+  ],
+  "gamelinks": [
+    "加入Steam愿望单 ↗",
+    "游玩试玩版 ↗",
+    "游戏官方网站 ↗"
+  ],
+  "chips": [
+    "停滞的现在",
+    "逐渐展开的过去",
+    "探索",
+    "对话选择",
+    "文件与消息",
+    "氛围解谜",
+    "诺莉"
+  ],
+  "archiveheading": "WriteNor原型",
+  "archive": "The Last Command是Terawww为未来游戏WriteNor制作的早期原型。Windows和Linux版本已在itch.io提供。首个测试版于2025年8月发布。",
+  "archivelink": "了解The Last Command ↗",
+  "communitylabel": "WriteNor社区",
+  "approach": "我的创作理念",
+  "philosophy": [
+    [
+      "熟悉的地方，一处异样的细节",
+      "即使什么都还没发生，场景也可以令人不安。<strong>细微的变化</strong>给了玩家再次观察的理由。"
+    ],
+    [
+      "从好奇心开始",
+      "我希望玩家继续前行，是因为他们<strong>想要理解</strong>这个地方、这些人，以及背后的那段记忆。"
+    ],
+    [
+      "让玩家自己发现",
+      "一个房间、一条消息或一次对话中的停顿，都能讲述故事。比起一次给出所有答案，我更重视<strong>玩家亲自发现的细节</strong>。"
+    ],
+    [
+      "情感会留下痕迹",
+      "当恐怖背后有着人性的内核，它才会留在我们心中。<strong>记忆、缺席和未完的对话</strong>是WriteNor的核心。"
+    ]
+  ],
+  "quote": "“让玩家想要回忆，即使那会带来痛苦。”",
+  "quoteattr": "— Terawww / 创作方向",
+  "contact": "联系我",
+  "contactp": "欢迎媒体、游戏节主办方，以及有合作想法或想分享游戏反馈的朋友联系我。请介绍你的想法，并附上有帮助的链接。",
+  "contactp2": "报告WriteNor的问题时，请说明你使用的平台以及发生了什么。",
+  "open": "欢迎联系",
+  "opento": "媒体 · 游戏节 · 游戏合作",
+  "name": "姓名 / 工作室",
+  "nameplaceholder": "你的姓名或媒体名称",
+  "email": "电子邮箱",
+  "emailplaceholder": "you@example.com",
+  "subject": "主题",
+  "subjectplaceholder": "媒体 / 合作 / 反馈",
+  "message": "消息",
+  "messageplaceholder": "请提供背景、详情和相关链接。",
+  "submit": "发送消息 ↗",
+  "external": "> 官方链接",
+  "footer": "Terawww — 独立游戏开发者",
+  "signal": "WriteNor — 开发中",
+  "privacy": "消息通过Formspree发送。",
+  "lang": "zh",
+  "htmlLang": "zh-Hans",
+  "oglocale": "zh_CN",
+  "auto": "自动",
+  "effectsreduced": "特效：减弱",
+  "featureslabel": "WriteNor特色",
+  "devlabel": "> 开发者档案",
+  "currentlabel": "> 当前项目",
+  "approachlabel": "> 创作理念",
+  "transmissionlabel": "> 通信",
+  "reducedtitle": "系统已启用减少动态效果"
+}
