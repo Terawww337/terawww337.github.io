@@ -1,0 +1,15 @@
+{
+  "id": "/",
+  "name": "Terawww — Indie Game Developer",
+  "short_name": "Terawww",
+  "description": "Official website of Terawww, independent game developer and creator of WriteNor.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#020202",
+  "theme_color": "#ff003c",
+  "icons": [
+    {"src": "/assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+}

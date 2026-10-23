@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://terawww.github.io/sitemap.xml
+Sitemap: https://terawww337.github.io/sitemap.xml
